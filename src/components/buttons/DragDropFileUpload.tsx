@@ -5,7 +5,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File) => void }) {
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -29,16 +29,18 @@ function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File) => vo
     []
   );
 
-  const handleFileChange = (file: any) => {
-    setLoading(true);
-    onFileUpload(file); 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setLoading(false);
-      setImagePreview(reader.result);
-    };
-    reader.readAsDataURL(file);
+const handleFileChange = (file: any) => {
+  setLoading(true);
+  onFileUpload(file);
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setLoading(false);
+    setImagePreview(reader.result as string | null);
   };
+
+  reader.readAsDataURL(file);
+};
 
   const handleChange = useCallback(
     (event: any) => {

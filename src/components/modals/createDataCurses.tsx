@@ -31,10 +31,12 @@ export const CreateDataCurses: React.FC<{}> = () => {
     const [courseDescription, setCourseDescription] = useState("");
     const [courseState, setCourseState] = useState("");
     const [coursePrice, setCoursePrice] = useState("");
+    const [courseTitleLength, setCourseTitleLength] = useState(0);
+    const [courseDescriptionLength, setCourseDescriptionLength] = useState(0);
     const [error, setError] = useState(false);
 
     const handleButtonClick = () => {
-        if (courseTitle === "" || courseDescription === "" || courseState === "" || coursePrice === "") {
+        if (courseTitle === "" || courseDescription === "" || courseState === "" || coursePrice === "" || courseTitleLength > 60 || courseDescriptionLength > 180) {
           setError(true);
         } else {
           setError(false);
@@ -53,12 +55,12 @@ export const CreateDataCurses: React.FC<{}> = () => {
                                 <Box component="form">
                                     <Typography id="modal-modal-title" variant="h6" component="h4">Crear datos del curso</Typography>
                                     <div>
-                                        {!error && (<TextField id="outlined" label="Titulo del curso" fullWidth sx={{ mt: 2, mb: 1.5 }} value={courseTitle} onChange={(e) => setCourseTitle(e.target.value)}/>)}
-                                        {error && (<TextField error id="outlined-error-helper-text" label="Error" helperText="El campo no debe estar vacio" fullWidth sx={{ mt: 2, mb: 1.5 }}/>)}
+                                        {!error && (<TextField id="outlined" label="Titulo del curso" fullWidth sx={{ mt: 2, mb: 1.5 }} value={courseTitle} onChange={(e) => {setCourseTitle(e.target.value); setCourseTitleLength(e.target.value.length);}}/>)}
+                                        {error && (<TextField error id="outlined-error-helper-text" label="Error" helperText={courseTitleLength > 60 ? "El título no debe superar los 60 caracteres" : "El campo no debe estar vacio"} fullWidth sx={{ mt: 2, mb: 1.5 }}/>)}
                                     </div>
                                     <div>
-                                        {!error && (<TextField id="outlined-multiline-static-required" label="Descripcion del curso" multiline rows={2} fullWidth sx={{mt:1.5, mb:1.5}} value={courseDescription} onChange={(e) => setCourseDescription(e.target.value)}/>)}
-                                        {error && (<TextField error id="outlined-multiline-static-required" label="Error" helperText="El campo no debe estar vacio" multiline rows={2} fullWidth sx={{mt:1.5, mb:1.5}}/>)}
+                                        {!error && (<TextField id="outlined-multiline-static-required" label="Descripcion del curso" multiline rows={2} fullWidth sx={{mt:1.5, mb:1.5}} value={courseDescription} onChange={(e) => {setCourseDescription(e.target.value); setCourseDescriptionLength(e.target.value.length);}}/>)}
+                                        {error && (<TextField error id="outlined-multiline-static-required" label="Error" helperText={courseDescriptionLength > 180 ? "La descripcion no debe superar los 180 caracteres" : "El campo no debe estar vacio"} multiline rows={2} fullWidth sx={{mt:1.5, mb:1.5}}/>)}
                                     </div>
                                     <Grid container direction="row" spacing={2}>
                                         <Grid item xs={6}>
