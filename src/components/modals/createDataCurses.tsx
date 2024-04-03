@@ -35,14 +35,23 @@ export const CreateDataCurses: React.FC<{}> = () => {
     const [courseDescriptionLength, setCourseDescriptionLength] = useState(0);
     const [error, setError] = useState(false);
 
-    const handleButtonClick = () => {
-        if (courseTitle === "" || courseDescription === "" || courseState === "" || coursePrice === "" || courseTitleLength > 60 || courseDescriptionLength > 180) {
+    const handleButtonClick = (e:any) => {
+        e.preventDefault();
+      
+        if (
+          courseTitle === "" ||
+          courseDescription === "" ||
+          courseState === "" ||
+          coursePrice === "" ||
+          courseTitleLength > 60 ||
+          courseDescriptionLength > 180
+        ) {
           setError(true);
         } else {
           setError(false);
           // ... Procesar el valor si no hay errores
         }
-      };
+    };
 
     return(
         <div>
