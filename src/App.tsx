@@ -1,8 +1,7 @@
-//import { HashRouter, Route, Routes } from "react-router-dom";
-//mport { Students } from "./views/students";
-//import Teachers from "./views/teachers";
-import Courses from "./views/teachers/courses";
-/*
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { Students } from "./views/students";
+import Teachers from "./views/teachers";
+
 function App() {
   return (
     <HashRouter>
@@ -13,12 +12,6 @@ function App() {
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </HashRouter>
-  );
-}*/
-// Muestra o renderiza lo que vaya a visualizar el docente
-function App() {
-  return (
-    <Courses/>
   );
 }
 
