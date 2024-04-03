@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+// Importar componentes Material-UI y botones personalizados
 import { Box, Button, Container, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Modal, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CancelDialog from "../buttons/CancelDialog";
+// Importar el componente para arrastrar y soltar archivos
 import DragDropFileUpload from "../buttons/DragDropFileUpload";
 
+// Matriz constante para las opciones del menú desplegable del estado del curso
 const currencies = [
     {
       value: '',
@@ -19,25 +22,34 @@ const currencies = [
     }
 ];
 
+// Definición del componente de función para crear cursos que es un modal (pop-up)
 export const CreateDataCurses: React.FC<{}> = () => {
+    // Variable de estado para controlar la visibilidad modal
     const [open, setOpen] = React.useState(false);
+    // Funciones para manejar la apertura y cierre modal
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    // Función para manejar la carga de archivos
     const handleFileUpload = (file: any) => {
         console.log(file);
     };
 
+    // Variables de estado para los datos del curso
     const [courseTitle, setCourseTitle] = useState("");
     const [courseDescription, setCourseDescription] = useState("");
     const [courseState, setCourseState] = useState("");
     const [coursePrice, setCoursePrice] = useState("");
+    // Variables de estado para el seguimiento de la longitud del título y la descripción
     const [courseTitleLength, setCourseTitleLength] = useState(0);
     const [courseDescriptionLength, setCourseDescriptionLength] = useState(0);
+    // Variable de estado para la gestión de errores
     const [error, setError] = useState(false);
 
     const handleButtonClick = (e:any) => {
+        // Prevenir el comportamiento por defecto del evento (envío de formulario/recargar la pagina)
         e.preventDefault();
       
+        // Validar que todos los campos estén llenos y no superen la longitud máxima
         if (
           courseTitle === "" ||
           courseDescription === "" ||
@@ -46,10 +58,12 @@ export const CreateDataCurses: React.FC<{}> = () => {
           courseTitleLength > 60 ||
           courseDescriptionLength > 180
         ) {
+            // Mostrar un mensaje de error
           setError(true);
         } else {
+            // Si no hay errores, ocultar el mensaje de error y procesar el valor
           setError(false);
-          // ... Procesar el valor si no hay errores
+          // ... Aquí se procesaría el valor de los campos para crear el curso
         }
     };
 

@@ -1,28 +1,41 @@
+// Importar hooks de React para state y callbacks
 import { useCallback, useState } from 'react';
+// Importar componentes Material-UI
 import { Box, Paper, Typography, IconButton, Grid, CircularProgress } from '@mui/material';
+// Importar icono de carga
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File) => void }) {
+  // Variables de estado para el efecto de arrastre, el estado de carga y la previsualización de la imagen
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
-const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleDragOver = useCallback((event: any) => {
+    // Impedir el comportamiento por defecto (como abrir el archivo)
     event.preventDefault();
+    // Establecer el estado dragOver a true para el efecto visual (resaltado)
     setDragOver(true);
   }, []);
 
   const handleDragLeave = useCallback((event: any) => {
+    // Impedir el comportamiento por defecto (como abrir el archivo)
     event.preventDefault();
+    // Restablecer el estado dragOver a false cuando el arrastre abandone el área
     setDragOver(false);
   }, []);
 
   const handleDrop = useCallback(
     (event: any) => {
+      // Impedir el comportamiento por defecto (como abrir el archivo)
       event.preventDefault();
+      // Restablecer estado dragOver
       setDragOver(false);
+      // Obtener los archivos arrastrados
       const files = event.dataTransfer.files;
+      // Comprueba si hay al menos un fichero
       if (files && files[0]) {
+        // Llamar a la función handleFileChange con el primer fichero
         handleFileChange(files[0]);
       }
     },
@@ -30,21 +43,29 @@ const [imagePreview, setImagePreview] = useState<string | null>(null);
   );
 
 const handleFileChange = (file: any) => {
+  // Establecer el estado de carga a true
   setLoading(true);
+  // Activa la función onFileUpload con el archivo cargado
   onFileUpload(file);
 
+  // Crear un FileReader para previsualizar la imagen
   const reader = new FileReader();
   reader.onloadend = () => {
+    // Establecer el estado de carga a false
     setLoading(false);
+    // Establecer el estado imagePreview con la URL de datos para la vista previa
     setImagePreview(reader.result as string | null);
   };
 
+  // Leer el archivo como una URL de datos
   reader.readAsDataURL(file);
 };
 
   const handleChange = useCallback(
     (event: any) => {
+      // Obtener archivos del evento de cambio de entrada
       const files = event.target.files;
+      // Si hay al menos un fichero, llama a handleFileChange
       if (files && files[0]) {
         handleFileChange(files[0]);
       }
