@@ -39,8 +39,8 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=8192
           NODE_ENV: production
           REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
-          REACT_APP_API_USERNAME: ${{ vars.REACT_APP_API_USERNAME }}
-          REACT_APP_API_PASSWORD: ${{ vars.REACT_APP_API_PASSWORD }}
+          REACT_APP_API_USERNAME: ${{ secrets.REACT_APP_API_USERNAME }}
+          REACT_APP_API_PASSWORD: ${{ secrets.REACT_APP_API_PASSWORD }}
         run: echo $REACT_APP_API_URL && pnpm run build
 
       - name: Upload artifact
