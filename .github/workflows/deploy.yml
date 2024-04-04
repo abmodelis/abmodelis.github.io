@@ -5,6 +5,11 @@ on:
     branches:
       - develop
 
+env:
+  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+  REACT_APP_API_USERNAME: ${{ secrets.REACT_APP_API_USERNAME }}
+  REACT_APP_API_PASSWORD: ${{ secrets.REACT_APP_API_PASSWORD }}
+
   workflow_dispatch:
 
 permissions:
@@ -36,11 +41,9 @@ jobs:
 
       - name: Build project
         env:
-          NODE_OPTIONS: --max_old_space_size=8192
-          NODE_ENV: production
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-          REACT_APP_API_USERNAME: ${{ secrets.REACT_APP_API_USERNAME }}
-          REACT_APP_API_PASSWORD: ${{ secrets.REACT_APP_API_PASSWORD }}
+          REACT_APP_API_URL: ${{ env.REACT_APP_API_URL }}
+          REACT_APP_API_USERNAME: ${{ env.REACT_APP_API_USERNAME }}
+          REACT_APP_API_PASSWORD: ${{ env.REACT_APP_API_PASSWORD }}
         run: pnpm run build
 
       - name: Upload artifact
