@@ -6,7 +6,7 @@ import SearchBar from "../SearchBar";
 export const LoginNavBar: React.FC<{}> = () =>{
     return (
         <Box sx={{flexGrow:1}}>
-            <AppBar position="fixed">
+            <AppBar>
                 <Toolbar>
                     <Container maxWidth="xl">
                         <Grid container direction="row" justifyContent="space-between" alignItems="center">
