@@ -6,7 +6,7 @@ import { SearchBar } from "../SearchBar";
 
 export const LoginNavBar: React.FC = () => {
   return (
-    <AppBar>
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar>
           <Typography sx={{ flexGrow: 1 }}>
