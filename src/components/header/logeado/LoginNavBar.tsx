@@ -1,28 +1,25 @@
-import { AppBar, Avatar, Box, Container, Grid, Toolbar } from "@mui/material";
+import { AppBar, Avatar, Box, Container, Toolbar, Typography } from "@mui/material";
 import React from "react";
-import { LogoNavBar } from "../LogoNavBar";
-import SearchBar from "../SearchBar";
 
-export const LoginNavBar: React.FC<{}> = () =>{
-    return (
-        <Box sx={{flexGrow:1}}>
-            <AppBar>
-                <Toolbar>
-                    <Container maxWidth="xl">
-                        <Grid container direction="row" justifyContent="space-between" alignItems="center">
-                            <Grid item>
-                                <LogoNavBar/>
-                            </Grid>
-                            <Grid item>
-                                <SearchBar/>
-                            </Grid>
-                            <Grid item>
-                                <Avatar>M</Avatar>
-                            </Grid>
-                        </Grid>
-                    </Container>
-                </Toolbar>
-            </AppBar>
-        </Box>
-    )
-}
+import { LogoNavBar } from "icons";
+import { SearchBar } from "../SearchBar";
+
+export const LoginNavBar: React.FC = () => {
+  return (
+    <AppBar>
+      <Container maxWidth="xl">
+        <Toolbar>
+          <Typography sx={{ flexGrow: 1 }}>
+            <LogoNavBar />
+          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <SearchBar />
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Avatar>M</Avatar>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+};

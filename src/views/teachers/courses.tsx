@@ -1,7 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import PanelNav from "../../components/PanelNav";
-import { LoginNavBar } from "../../components/header/logeado/LoginNavBar";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
 
@@ -19,7 +18,6 @@ function Courses() {
 
   return (
     <div>
-      <LoginNavBar />
       <PanelNav>
         <h1>Courses</h1>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>

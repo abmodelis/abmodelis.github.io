@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react';
-import { Box, Paper, Typography, IconButton, Grid, CircularProgress } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Box, CircularProgress, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { useCallback, useState } from "react";
 
-function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File) => void }) {
+export function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File) => void }) {
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
-const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -17,40 +17,34 @@ const [imagePreview, setImagePreview] = useState<string | null>(null);
     setDragOver(false);
   }, []);
 
-  const handleDrop = useCallback(
-    (event: any) => {
-      event.preventDefault();
-      setDragOver(false);
-      const files = event.dataTransfer.files;
-      if (files && files[0]) {
-        handleFileChange(files[0]);
-      }
-    },
-    []
-  );
+  const handleDrop = useCallback((event: any) => {
+    event.preventDefault();
+    setDragOver(false);
+    const files = event.dataTransfer.files;
+    if (files && files[0]) {
+      handleFileChange(files[0]);
+    }
+  }, []);
 
-const handleFileChange = (file: any) => {
-  setLoading(true);
-  onFileUpload(file);
+  const handleFileChange = (file: any) => {
+    setLoading(true);
+    onFileUpload(file);
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    setLoading(false);
-    setImagePreview(reader.result as string | null);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setLoading(false);
+      setImagePreview(reader.result as string | null);
+    };
+
+    reader.readAsDataURL(file);
   };
 
-  reader.readAsDataURL(file);
-};
-
-  const handleChange = useCallback(
-    (event: any) => {
-      const files = event.target.files;
-      if (files && files[0]) {
-        handleFileChange(files[0]);
-      }
-    },
-    []
-  );
+  const handleChange = useCallback((event: any) => {
+    const files = event.target.files;
+    if (files && files[0]) {
+      handleFileChange(files[0]);
+    }
+  }, []);
 
   return (
     <Box>
@@ -60,17 +54,17 @@ const handleFileChange = (file: any) => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         style={{
-          border: dragOver ? '2px dashed #000' : '2px dashed #aaa',
+          border: dragOver ? "2px dashed #000" : "2px dashed #aaa",
           padding: 20,
-          textAlign: 'center',
-          cursor: 'pointer',
-          background: dragOver ? '#eee' : '#fafafa',
-          position: 'relative',
+          textAlign: "center",
+          cursor: "pointer",
+          background: dragOver ? "#eee" : "#fafafa",
+          position: "relative",
         }}
       >
         <input
           accept="image/*"
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           id="raised-button-file"
           multiple
           type="file"
@@ -88,11 +82,11 @@ const handleFileChange = (file: any) => {
           <CircularProgress
             size={24}
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              marginTop: '-12px',
-              marginLeft: '-12px',
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              marginTop: "-12px",
+              marginLeft: "-12px",
             }}
           />
         )}
@@ -100,17 +94,10 @@ const handleFileChange = (file: any) => {
       {imagePreview && (
         <Grid container justifyContent="center" style={{ marginTop: 16 }}>
           <Grid item xs={12} sm={6} md={4}>
-            <Box
-              component="img"
-              src={imagePreview}
-              alt="Image Preview"
-              sx={{ width: '100%', height: 'auto' }}
-            />
+            <Box component="img" src={imagePreview} alt="Image Preview" sx={{ width: "100%", height: "auto" }} />
           </Grid>
         </Grid>
       )}
     </Box>
   );
 }
-
-export default DragDropFileUpload;

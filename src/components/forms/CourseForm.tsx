@@ -11,10 +11,11 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ICourseInput, Status } from "../../types";
-import DragDropFileUpload from "../buttons/DragDropFileUpload";
-import { useState } from "react";
+
+import { DragDropFileUpload } from "components/buttons/DragDropFileUpload";
 
 type Props = {
   onFormSubmit: (data: ICourseInput) => void;
