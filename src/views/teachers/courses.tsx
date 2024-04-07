@@ -29,7 +29,7 @@ function Courses() {
 
   return (
     <>
-      <Box display="flex" sx={{ mt: 3 }}>
+      <Box display="flex" sx={{ p: 3 }}>
         <Breadcrumbs sx={{ flexGrow: 1 }} aria-label="breadcrumb">
           <Link underline="hover" color="inherit" href="/">
             Panel
