@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
         views: "/src/views",
         services: "/src/services",
         types: "/src/types",
+        layout: "/src/layout",
       },
     },
   };

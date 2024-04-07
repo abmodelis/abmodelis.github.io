@@ -11,7 +11,8 @@
       "@components": ["/src/components"],
       "@views": ["/src/views"],
       "@services": ["/src/services"],
-      "@types": ["/src/types"]
+      "@types": ["/src/types"],
+      "@layout": ["/src/layout"]
     },
 
     /* Bundler mode */
