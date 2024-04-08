@@ -4,20 +4,21 @@ import { Route, Routes } from "react-router-dom";
 // Importe el componente Cursos (suponiendo que gestione la funcionalidad de cursos)
 import Courses from "./courses";
 
-// Definir el componente Teachers como un componente funcional React
+import { Layout } from "layout";
+
 const Teachers = () => {
   // Renderizar un componente Rutas para definir rutas anidadas dentro de Teachers
   return (
-    <Routes>
-      {/* La ruta para la ruta base de "/teachers" muestra "Teacher Home" */}
-      <Route path="/" element={<h1>Teacher Home</h1>} />
-      {/* La ruta para "/teachers/profile" muestra "Teacher Profile". */}
-      <Route path="/profile" element={<h1>Teacher Profile</h1>} />
-      {/* La ruta "/teachers/courses" muestra el componente importado Courses. */}
-      <Route path="/courses" element={<Courses />} />
-      {/* La ruta para "/teachers/mystudents" muestra "Profesor Misalumnos". */}
-      <Route path="/mystudents" element={<h1>Teacher MyStudents</h1>} />
-    </Routes>
+    <>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<h1>Teacher Home</h1>} />
+          <Route path="/profile" element={<h1>Teacher Profile</h1>} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/mystudents" element={<h1>Teacher MyStudents</h1>} />
+        </Routes>
+      </Layout>
+    </>
   );
 };
 
