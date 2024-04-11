@@ -8,16 +8,12 @@ export function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleDragOver = useCallback((event: any) => {
-    // Impedir el comportamiento por defecto (como abrir el archivo)
     event.preventDefault();
-    // Establecer el estado dragOver a true para el efecto visual (resaltado)
     setDragOver(true);
   }, []);
 
   const handleDragLeave = useCallback((event: any) => {
-    // Impedir el comportamiento por defecto (como abrir el archivo)
     event.preventDefault();
-    // Restablecer el estado dragOver a false cuando el arrastre abandone el área
     setDragOver(false);
   }, []);
 
