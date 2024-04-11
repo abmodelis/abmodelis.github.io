@@ -14,6 +14,7 @@ export class CoursesService {
       async ({ data: { image_url } }) => {
         const { data } = await ApiService.post<Course>("/courses", {
           ...courseInput,
+          price: courseInput.price * 100,
           image_path: image_url,
         });
         return data;
