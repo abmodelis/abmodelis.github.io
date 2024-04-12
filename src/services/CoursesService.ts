@@ -7,6 +7,12 @@ export class CoursesService {
     return response.data;
   }
 
+  static async getCourse(id: string) {
+    const response = await ApiService.get<Course>(`/courses/${id}`);
+    response.data.price = response.data.price / 100;
+    return response.data;
+  }
+
   static async createCourse(courseInput: ICourseInput) {
     const formData = new FormData();
     formData.append("file", courseInput.image);
