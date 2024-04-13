@@ -5,5 +5,6 @@ export interface ICourseInput {
   description: string;
   status: Status;
   price: number;
-  image: File;
+  image: File | null;
+  image_url?: string | null;
 }

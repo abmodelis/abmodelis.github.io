@@ -14,6 +14,7 @@ export class CoursesService {
   }
 
   static async createCourse(courseInput: ICourseInput) {
+    if (!courseInput.image) return;
     const formData = new FormData();
     formData.append("file", courseInput.image);
     const course = await ApiService.multipart<{ image_url: string }>("/multimedia/images", formData).then(
@@ -26,6 +27,25 @@ export class CoursesService {
         return data;
       }
     );
+    return course;
+  }
+
+  static async updateCourse(id: string | number, courseInput: ICourseInput) {
+    const sendData = async ({ data: { image_url } }: { data: { image_url?: string | null } }) => {
+      const { data } = await ApiService.put<Course>(`/courses/${id}`, {
+        ...courseInput,
+        price: courseInput.price * 100,
+        image_path: image_url,
+      });
+      return data;
+    };
+
+    if (!courseInput.image) {
+      return sendData({ data: { image_url: courseInput.image_url } });
+    }
+    const formData = new FormData();
+    formData.append("file", courseInput.image);
+    const course = await ApiService.multipart<{ image_url: string }>(`/multimedia/images`, formData).then(sendData);
     return course;
   }
 }
