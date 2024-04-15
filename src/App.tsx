@@ -2,9 +2,6 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { Students } from "./views/students";
 import Teachers from "./views/teachers";
 
-
-
-
 function App() {
   return (
     <HashRouter>
@@ -17,5 +14,4 @@ function App() {
     </HashRouter>
   );
 }
-
 export default App;
