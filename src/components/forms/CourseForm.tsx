@@ -10,6 +10,7 @@ import {
   OutlinedInput,
   Select,
   TextField,
+  /*Typography,*/
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -67,8 +68,8 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           maxLength: { value: 60, message: "Maximo 60 caracteres" },
           pattern: {
             value: /^(?=.*[A-Za-z0-9])[A-Za-z0-9\s]{5,60}$/,
-            message: "Solo se aceptan letras y números, y al menos 5 caracteres"
-          }
+            message: "Solo se aceptan letras y números, y al menos 5 caracteres",
+          },
         })}
         label="Titulo del curso"
         fullWidth
@@ -122,7 +123,10 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         </Grid>
       </Grid>
       <Grid sx={{ mt: 1.5, mb: 1.5 }}>
-        <Box>
+        {/* <Typography>Imagen Miniatura</Typography> */}
+        <InputLabel htmlFor="outlined-adornment-amount">Imagen Miniatura</InputLabel>
+
+        <Box {...form.register("image", { required: "Debe subir una imagen" })}>
           <DragDropFileUpload imageFile={imageFile} onFileUpload={setImageFile} />
           {form.formState.errors.image && (
             <FormHelperText error={!!form.formState.errors.image}>{form.formState.errors.image.message}</FormHelperText>
