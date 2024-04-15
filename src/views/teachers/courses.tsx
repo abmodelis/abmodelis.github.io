@@ -1,5 +1,3 @@
-import { Add } from "@mui/icons-material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   Box,
   Breadcrumbs,
@@ -16,12 +14,11 @@ import {
 } from "@mui/material";
 import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-
-// import IconButton from '@mui/material/IconButton';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Add } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 function Courses() {
   const [loading, setLoading] = useState(true);
