@@ -8,22 +8,20 @@ import {
   CardMedia,
   Grid,
   Link,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-import { CreateDataCurses } from "components/modals/CreateDataCourses";
-
-// import IconButton from '@mui/material/IconButton';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddIcon from "@mui/icons-material/Add";
-
-
+import { Edit } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function Courses() {
   const [loading, setLoading] = useState(true);
-  const [corses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const navigator = useNavigate();
 
   useEffect(() => {
     if (!loading) return;
@@ -33,56 +31,71 @@ function Courses() {
     });
   }, [loading]);
 
-  //
-  // const handleOpenModal = () => {
-  //   setOpen(true);
-  // };
-
+  const handleEdit = (course_id: number) => {
+    navigator(`/teachers/course`, { state: { course_id } });
+  };
 
   return (
     <>
       <Box display="flex" sx={{ p: 3 }}>
         <Breadcrumbs sx={{ flexGrow: 1 }} aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
+          <Link underline="hover" color="inherit" href="#/teachers">
             Panel
           </Link>
-          <Typography color="text.primary">Breadcrumbs</Typography>
+          <Typography color="text.primary">Cursos</Typography>
         </Breadcrumbs>
-        <CreateDataCurses 
-          addButton={
-            <Button
-              variant="contained"
-              endIcon={<AddIcon />}
-              sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
-            >
-              Agregar curso
-            </Button>
-          }
-        />
+        <CreateDataCurses/>
       </Box>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {corses.map((course) => (
-          <Grid item xs={2} sm={4} md={4} key={course.id}>
+      <Typography
+        visibility={courses.length === 0 ? "visible" : "hidden"}
+        variant="body2"
+        color="text.secondary"
+        style={{ textAlign: "center" }}
+      >
+        No existen cursos
+      </Typography>
+      <Grid
+        visibility={loading || courses.length === 0 ? "hidden" : "visible"}
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 2, sm: 8, md: 12, lg: 12 }}
+      >
+        {courses.map((course) => (
+          <Grid item xs={2} sm={4} md={4} lg={3} key={course.id}>
             <Card sx={{ maxWidth: 345 }}>
-              <CardMedia sx={{ height: 140 }} image={course.image_path} title={course.title} />
+              <CardMedia sx={{ height: 200 }} image={course.image_path} title={course.title} />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {course.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Tooltip title={course.title} placement="top">
+                  <Typography
+                    sx={{
+                      maxHeight: 50,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                  >
+                    {course.title}
+                  </Typography>
+                </Tooltip>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    maxHeight: 100,
+                    overflowX: "hidden",
+                    overflowWrap: "break-word",
+                    textOverflow: "ellipsis",
+                  }}
+                >
                   {course.description}
                 </Typography>
               </CardContent>
-              {/* <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions> */}
-
-              <CardActions sx={{ justifyContent: 'space-between' }}>
-                <div>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
-                </div>
+              <CardActions sx={{ justifyContent: "flex-end" }}>
+                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" endIcon={<Edit />}>
+                  Editar
+                </Button>
               </CardActions>
 
             </Card>

@@ -1,7 +1,6 @@
 import axios, { AxiosResponse, AxiosRequestConfig, Method, AxiosError } from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
-console.log(API_URL, `${API_URL}/api/v1/`);
 axios.defaults.baseURL = `${API_URL}/api/v1/`;
 
 export class ApiService {

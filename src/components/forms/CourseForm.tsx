@@ -12,27 +12,50 @@ import {
   TextField,
   /*Typography,*/
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ICourseInput, Status } from "../../types";
 
 import { DragDropFileUpload } from "components/buttons/DragDropFileUpload";
+import { Course, ICourseInput, Status } from "types";
+import { MediaServices } from "services";
 
 type Props = {
+  course?: Course;
   onFormSubmit: (data: ICourseInput) => void;
   onCancel: () => void;
 };
 
-export const CourseForm: React.FC<Props> = ({ onFormSubmit, onCancel }) => {
+export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) => {
   const form = useForm<ICourseInput>();
   const [imageFile, setImageFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (!course) return;
+    form.reset({
+      title: course.title,
+      description: course.description,
+      status: course.status,
+      price: course.price,
+    });
+
+    MediaServices.getImage(course.image_path).then((imageFile) => {
+      if (!imageFile) return;
+      setImageFile(imageFile);
+      form.setValue("image", imageFile);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [course]);
 
   const handleSubmit = (data: ICourseInput) => {
     if (!imageFile) {
       form.setError("image", { message: "Este campo es requerido" });
       return;
     }
-    data.image = imageFile;
+    const fileName = course?.image_path.split("/").pop();
+    if (fileName) {
+      data.image_url = course?.image_path;
+    }
+    data.image = fileName === imageFile?.name ? null : imageFile;
     onFormSubmit(data);
   };
 
@@ -99,8 +122,8 @@ export const CourseForm: React.FC<Props> = ({ onFormSubmit, onCancel }) => {
         {/* <Typography>Imagen Miniatura</Typography> */}
         <InputLabel htmlFor="outlined-adornment-amount">Imagen Miniatura</InputLabel>
 
-        <Box {...form.register("image", { required: "Debe subir una imagen" })}>
-          <DragDropFileUpload onFileUpload={setImageFile} />
+        <Box>
+          <DragDropFileUpload imageFile={imageFile} onFileUpload={setImageFile} />
           {form.formState.errors.image && (
             <FormHelperText error={!!form.formState.errors.image}>{form.formState.errors.image.message}</FormHelperText>
           )}
