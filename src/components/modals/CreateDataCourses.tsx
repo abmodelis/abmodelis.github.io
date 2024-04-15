@@ -1,4 +1,4 @@
-import AddIcon from "@mui/icons-material/Add";
+// import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
@@ -19,6 +19,10 @@ import { CoursesService } from "../../services";
 import { ICourseInput } from "../../types";
 import { CourseForm } from "../forms";
 
+// import List from '@mui/material/List';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemButton from '@mui/material/ListItemButton';
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -28,7 +32,9 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const CreateDataCurses: React.FC = () => {
+// export const CreateDataCurses: React.FC = () => {
+export const CreateDataCurses: React.FC<{ addButton: React.ReactNode }> = ({ addButton }) => {
+// export const CreateDataCurses: React.FC<CreateDataCursesProps> = ({ onClose }) => {
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -45,14 +51,16 @@ export const CreateDataCurses: React.FC = () => {
 
   return (
     <div>
-      <Button
+      {/* <Button
         onClick={handleOpen}
         variant="contained"
         endIcon={<AddIcon />}
         sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
       >
         Agregar curso
-      </Button>
+      </Button> */}
+      <div onClick={handleOpen}>{addButton}</div>
+      
 
       <Modal
         open={open}
