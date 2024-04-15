@@ -15,6 +15,12 @@ import { CoursesService } from "../../services";
 import { Course } from "../../types";
 import { CreateDataCurses } from "components/modals/CreateDataCourses";
 
+// import IconButton from '@mui/material/IconButton';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AddIcon from "@mui/icons-material/Add";
+
+
+
 function Courses() {
   const [loading, setLoading] = useState(true);
   const [corses, setCourses] = useState<Course[]>([]);
@@ -27,6 +33,12 @@ function Courses() {
     });
   }, [loading]);
 
+  //
+  // const handleOpenModal = () => {
+  //   setOpen(true);
+  // };
+
+
   return (
     <>
       <Box display="flex" sx={{ p: 3 }}>
@@ -36,7 +48,17 @@ function Courses() {
           </Link>
           <Typography color="text.primary">Breadcrumbs</Typography>
         </Breadcrumbs>
-        <CreateDataCurses />
+        <CreateDataCurses 
+          addButton={
+            <Button
+              variant="contained"
+              endIcon={<AddIcon />}
+              sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
+            >
+              Agregar curso
+            </Button>
+          }
+        />
       </Box>
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {corses.map((course) => (
@@ -51,10 +73,18 @@ function Courses() {
                   {course.description}
                 </Typography>
               </CardContent>
-              <CardActions>
+              {/* <CardActions>
                 <Button size="small">Share</Button>
                 <Button size="small">Learn More</Button>
+              </CardActions> */}
+
+              <CardActions sx={{ justifyContent: 'space-between' }}>
+                <div>
+                  <Button size="small">Share</Button>
+                  <Button size="small">Learn More</Button>
+                </div>
               </CardActions>
+
             </Card>
           </Grid>
         ))}
