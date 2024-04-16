@@ -79,7 +79,7 @@ export const CreateDataCurses: React.FC = () => {
                   <DialogTitle>{"Estas seguro que deseas cancelar la acción?"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Esta accion anulara todos los datos que hayas ingresado en el formulario de crear los datos para
+                      Esta acción anulara todos los datos que hayas ingresado en el formulario de crear los datos para
                       un nuevo curso.
                     </DialogContentText>
                   </DialogContent>
