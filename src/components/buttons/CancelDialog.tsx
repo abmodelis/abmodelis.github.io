@@ -22,7 +22,7 @@ const Transition = React.forwardRef(function Transition(
  * @deprecated
  * @returns 
  */
-export default function CancelCialog() {
+export default function CancelDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -45,10 +45,10 @@ export default function CancelCialog() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Estas seguro que deseas cancelar la accion?"}</DialogTitle>
+        <DialogTitle>{"Estas seguro que deseas cancelar la acción?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Esta accion anulara todos los datos que hayas ingresado en el formulario de crear los datos para un nuevo
+            Esta acción anulara todos los datos que hayas ingresado en el formulario de crear los datos para un nuevo
             curso.
           </DialogContentText>
         </DialogContent>

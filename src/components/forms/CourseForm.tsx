@@ -76,6 +76,9 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
       <TextField
         {...form.register("description", {
           required: "Este campo es requerido",
+          minLength: { value: 5, message: "Minimo 5 caracteres" },
+          maxLength: { value: 100, message: "Maximo 254 caracteres" },
+          pattern: { value: /^[A-Za-z0-9\s]+$/, message: "Solo se aceptan letras y numeros" },
         })}
         label="Descripción del curso"
         multiline
