@@ -81,7 +81,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         {...form.register("description", {
           required: "Este campo es requerido",
         })}
-        label="Descripcion del curso"
+        label="Descripción del curso"
         multiline
         rows={2}
         fullWidth
