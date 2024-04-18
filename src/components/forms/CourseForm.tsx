@@ -65,9 +65,12 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           required: "Este campo es requerido",
           minLength: { value: 5, message: "Minimo 5 caracteres" },
           maxLength: { value: 100, message: "Maximo 100 caracteres" },
-          pattern: { value: /^[A-Za-z0-9\s]+$/, message: "Solo se aceptan letras y numeros" },
+          pattern: {
+            value: /^(?=.*[A-Za-z0-9])[A-Za-z0-9\s]{5,100}$/,
+            message: "Solo se aceptan letras y números, y al menos 5 caracteres"
+          }
         })}
-        label="Titulo del curso"
+        label="Titule del curso"
         fullWidth
         sx={{ mt: 2, mb: 1.5 }}
         error={!!form.formState.errors.title}
