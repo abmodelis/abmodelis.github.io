@@ -94,7 +94,7 @@ function Courses() {
               </CardContent>
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button onClick={handleEdit.bind(null, course.id)} variant="contained" endIcon={<Edit />}>
-                  Editar
+                  editar
                 </Button>
               </CardActions>
             </Card>
