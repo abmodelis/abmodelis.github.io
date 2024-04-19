@@ -15,7 +15,7 @@ import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-import { Edit } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function Courses() {
@@ -92,9 +92,9 @@ function Courses() {
                   {course.description}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: "flex-end" }}>
-                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" endIcon={<Edit />}>
-                  editar
+              <CardActions sx={{ justifyContent: "flex-start" }}>
+                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" startIcon={<Add />}>
+                  Contenido
                 </Button>
               </CardActions>
             </Card>
