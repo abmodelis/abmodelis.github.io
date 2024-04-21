@@ -54,7 +54,6 @@ export const CreateDataCurses: React.FC = () => {
         Agregar curso
       </Button>
       
-
       <Modal
         open={open}
         onClose={() => {}}
