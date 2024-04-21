@@ -11,7 +11,7 @@ function App() {
         <Route path="/teachers/*" element={<Teachers />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
-    </HashRouter>  
+    </HashRouter>
   );
 }
 
