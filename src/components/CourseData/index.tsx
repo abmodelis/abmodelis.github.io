@@ -67,11 +67,9 @@ export const CourseData: React.FC<Props> = ({ course }) => {
         </Box>
       </Grid>
       <Grid item xs={4} sx={{ display: "flex", justifyContent: "center" }}>
-        {/* <img src={course.image_path} alt={course.title} style={{ maxHeight: "100%", maxWidth: "100%" }} /> */}
         <img src={course.image_path} alt={course.title} style={{ height: "240px", width: "342px" }} />
       </Grid>
 
-      {/* Aca se implemento el boton de agregar sección */}
       <Grid item xs={4} sx={{ display: "flex", justifyContent: "flex-start" }}>
         <Box width={"100%"}>
         <CreateSection

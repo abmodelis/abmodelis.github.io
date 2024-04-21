@@ -97,7 +97,6 @@ function Courses() {
                   Editar
                 </Button>
               </CardActions>
-
             </Card>
           </Grid>
         ))}
