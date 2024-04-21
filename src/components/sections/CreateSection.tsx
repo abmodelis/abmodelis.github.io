@@ -17,7 +17,6 @@ import {
   import { CoursesService } from "../../services";
   import { ICourseInput } from "../../types";
   import { SectionForm } from "components/sections/SectionForm";
-// import { title } from "process";
   
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -35,18 +34,10 @@ import {
     handleClose: () => void;
 }
 
-  // export const CreateSection: React.FC<{ addButton: React.ReactNode; title: string }> = ({ addButton }) => {
+  
   export const CreateSection: React.FC<CreateSectionProps> = ({ addButton, title, open, handleClose }) => {
-    // const [open, setOpen] = React.useState(false);
+    
     const [openDialog, setOpenDialog] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleOpen = () => setOpenDialog(true);
-    
-    // const handleClose = () => {
-    //   setOpenDialog(false);
-    //   setOpen(false);
-    // };
-    
     const handleButtonClick = (data: ICourseInput) => {
       CoursesService.createCourse(data).then(() => {
         handleClose();
@@ -56,9 +47,7 @@ import {
   
     return (
       <div>
-        <div 
-          // onClick={handleOpen}
-        >{addButton}</div>
+        <div>{addButton}</div>
         
   
         <Modal

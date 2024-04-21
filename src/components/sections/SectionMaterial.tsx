@@ -30,35 +30,16 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-// interface SectionCourseProps {
-//     addButton: React.ReactNode;
-//   }
-
-// export const SectionCourse: React.FC<{ addButton: React.ReactNode }> = ({ addButton }) => {
 export const SectionMaterials: React.FC = () => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const handleChange = () => {
         setExpanded(prevExpanded => !prevExpanded);
     };
-    // const [sections, setSections] = React.useState<number[]>([]);
-
-    // const handleAddSection = () => {
-    //     setSections([...sections, sections.length]);
-    // };
-
     const [showIcons, setShowIcons] = React.useState<boolean>(false);
 
-    //
     const [showEditSectionModal, setShowEditSectionModal] = React.useState<boolean>(false);
 
-    //
-    // const [open, setOpen] = React.useState(false);
     const [openDialog, setOpenDialog] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => {
-    //   setOpenDialog(false);
-    //   setOpen(false);
-    // };
     const handleOpenEditSectionModal = () => {
         setShowEditSectionModal(true);
     };
@@ -100,7 +81,7 @@ export const SectionMaterials: React.FC = () => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-          {/* Accordion Actions */}
+          
             <div style={{ flex: 0.12 , alignSelf: 'center'}}>Accordion Actions</div>
             <div onClick={(event) => {event.stopPropagation();}} style={{ display: 'flex', alignItems: 'center' }}>
                 {showIcons && (

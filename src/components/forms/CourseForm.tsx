@@ -10,7 +10,6 @@ import {
   OutlinedInput,
   Select,
   TextField,
-  /*Typography,*/
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -123,7 +122,6 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         </Grid>
       </Grid>
       <Grid sx={{ mt: 1.5, mb: 1.5 }}>
-        {/* <Typography>Imagen Miniatura</Typography> */}
         <InputLabel htmlFor="outlined-adornment-amount">Imagen Miniatura</InputLabel>
 
         <Box {...form.register("image", { required: "Debe subir una imagen" })}>

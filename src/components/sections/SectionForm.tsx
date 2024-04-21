@@ -48,16 +48,6 @@ import {
         />
         
           
-        {/* <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Box ml={26}>
-            <Button onClick={onCancel}>Cancelar</Button>
-          </Box>
-          <Box ml={2}>
-            <Button type="submit" variant="contained" color="success">
-              Guardar
-            </Button>
-          </Box>
-        </Grid> */}
         <Grid container>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
             <Grid item sx={{ ml: 26 }}>
