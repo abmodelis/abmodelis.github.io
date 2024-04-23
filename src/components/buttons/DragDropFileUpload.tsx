@@ -1,11 +1,25 @@
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Box, CircularProgress, Grid, IconButton, Paper, Typography } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File) => void }) {
+type Props = {
+  imageFile: File | null;
+  onFileUpload: (file: File) => void;
+};
+
+export function DragDropFileUpload({ imageFile, onFileUpload }: Props) {
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!imageFile) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string | null);
+    };
+    reader.readAsDataURL(imageFile);
+  }, [imageFile]);
 
   const handleDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -26,7 +40,7 @@ export function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File
     }
   }, []);
 
-  const handleFileChange = (file: any) => {
+  const handleFileChange = (file: File) => {
     setLoading(true);
     onFileUpload(file);
 
@@ -66,9 +80,9 @@ export function DragDropFileUpload({ onFileUpload }: { onFileUpload: (file: File
           accept="image/*"
           style={{ display: "none" }}
           id="raised-button-file"
-          multiple
           type="file"
           onChange={handleChange}
+          disabled={loading}
         />
         <label htmlFor="raised-button-file">
           <Box display="flex" flexDirection="column" alignItems="center">

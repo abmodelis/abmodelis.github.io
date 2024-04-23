@@ -15,11 +15,14 @@ import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
+import { Edit } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 // Definir el componente Courses como un componente funcional React
 function Courses() {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
+  const navigator = useNavigate();
 
   useEffect(() => {
     if (!loading) return;
@@ -29,14 +32,18 @@ function Courses() {
     });
   }, [loading]);
 
+  const handleEdit = (course_id: number) => {
+    navigator(`/teachers/course`, { state: { course_id } });
+  };
+
   return (
     <>
       <Box display="flex" sx={{ p: 3 }}>
         <Breadcrumbs sx={{ flexGrow: 1 }} aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
+          <Link underline="hover" color="inherit" href="#/teachers">
             Panel
           </Link>
-          <Typography color="text.primary">Breadcrumbs</Typography>
+          <Typography color="text.primary">Cursos</Typography>
         </Breadcrumbs>
         <CreateDataCurses />
       </Box>
@@ -86,9 +93,10 @@ function Courses() {
                   {course.description}
                 </Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
+              <CardActions sx={{ justifyContent: "flex-end" }}>
+                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" endIcon={<Edit />}>
+                  Editar
+                </Button>
               </CardActions>
             </Card>
           </Grid>

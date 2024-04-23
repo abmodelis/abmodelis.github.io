@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Courses from "./courses";
 
 import { Layout } from "layout";
+import CourseView from "./Course";
 
 const Teachers = () => {
   // Renderizar un componente Rutas para definir rutas anidadas dentro de Teachers
@@ -15,6 +16,7 @@ const Teachers = () => {
           <Route path="/" element={<h1>Teacher Home</h1>} />
           <Route path="/profile" element={<h1>Teacher Profile</h1>} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/course" element={<CourseView />} />
           <Route path="/mystudents" element={<h1>Teacher MyStudents</h1>} />
         </Routes>
       </Layout>
