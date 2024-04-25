@@ -109,23 +109,15 @@ export const SectionCourse: React.FC<SectionCourseProps> = ({ addButton }) => {
                     <div onClick={(event) => {event.stopPropagation();}} style={{ display: 'flex', alignItems: 'center' }}>
                         {showIcons && (
                             <>
-                                <CreateSection
-                                    addButton={
-                                        <IconButton 
-                                            size="small" 
-                                            onClick={handleOpenEditSectionModal}
-                                            style={{ 
-                                                color: expanded ? 'white' : 'gray'
-                                            }}
-                                        >
-                                            <EditIcon fontSize="small" />
-                                        </IconButton>
-                                    }
-                                    title="Editar título de la sección"
-                                    open={showEditSectionModal}
-                                    handleClose={handleCloseEditSectionModal}
-                                />
-                                
+                                <IconButton 
+                                    size="small" 
+                                    onClick={handleOpenEditSectionModal}
+                                    style={{ 
+                                        color: expanded ? 'white' : 'gray'
+                                    }}
+                                >
+                                    <EditIcon fontSize="small" />
+                                </IconButton>
                                 <IconButton 
                                     size="small" 
                                     onClick={() => setOpenDialog(true)} 
@@ -145,7 +137,13 @@ export const SectionCourse: React.FC<SectionCourseProps> = ({ addButton }) => {
                     </div>
                 </AccordionSummary>
                 
-                        
+                 
+
+                <CreateSection
+                    title="Editar título de la sección"
+                    open={showEditSectionModal}
+                    handleClose={handleCloseEditSectionModal}
+                />       
 
                 <Dialog
                     open={openDialog}
