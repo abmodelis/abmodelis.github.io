@@ -28,14 +28,14 @@ import {
   });
   
   interface CreateSectionProps {
-    addButton: React.ReactNode;
+    addButton?: React.ReactNode;
     title: string;
     open: boolean;
     handleClose: () => void;
 }
 
   
-  export const CreateSection: React.FC<CreateSectionProps> = ({ addButton, title, open, handleClose }) => {
+  export const CreateSection: React.FC<CreateSectionProps> = ({ addButton = null, title, open, handleClose }) => {
     
     const [openDialog, setOpenDialog] = React.useState(false);
     const handleButtonClick = (data: ICourseInput) => {
@@ -47,7 +47,8 @@ import {
   
     return (
       <div>
-        <div>{addButton}</div>
+        {/* <div>{addButton}</div> */}
+        {addButton && <div>{addButton}</div>}
         
   
         <Modal
