@@ -64,17 +64,18 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         {...form.register("title", {
           required: "Este campo es requerido",
           minLength: { value: 5, message: "Minimo 5 caracteres" },
-          maxLength: { value: 100, message: "Maximo 100 caracteres" },
+          maxLength: { value: 60, message: "Maximo 60 caracteres" },
           pattern: {
-            value: /^(?=.*[A-Za-z0-9])[A-Za-z0-9\s]{5,100}$/,
+            value: /^(?=.*[A-Za-z0-9])[A-Za-z0-9\s]{5,60}$/,
             message: "Solo se aceptan letras y números, y al menos 5 caracteres"
           }
         })}
-        label="Titule del curso"
+        label="Titulo del curso"
         fullWidth
         sx={{ mt: 2, mb: 1.5 }}
         error={!!form.formState.errors.title}
         helperText={form.formState.errors.title?.message}
+        inputProps={{ maxLength: 60 }} // Limitar la longitud máxima a 60 caracteres
       />
       <TextField
         {...form.register("description", {
@@ -87,6 +88,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         sx={{ mt: 1.5, mb: 1.5 }}
         error={!!form.formState.errors.description}
         helperText={form.formState.errors.description?.message}
+        inputProps={{ maxLength: 130 }} // Limitar la longitud máxima a 130 caracteres
       />
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
