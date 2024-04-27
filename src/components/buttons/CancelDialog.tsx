@@ -17,11 +17,6 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-/**
-/**
- * @deprecated
- * @returns 
- */
 export default function CancelDialog() {
   const [open, setOpen] = React.useState(false);
 
@@ -32,6 +27,10 @@ export default function CancelDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleConfirm = () => {
+    window.location.href = "/#/teachers/courses"
+  }
 
   return (
     <React.Fragment>
@@ -48,13 +47,12 @@ export default function CancelDialog() {
         <DialogTitle>{"Estas seguro que deseas cancelar la acción?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Esta acción anulara todos los datos que hayas ingresado en el formulario de crear los datos para un nuevo
-            curso.
+            Esta acción anulara todos los datos creados.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleClose}>Confirmar</Button>
+          <Button onClick={handleConfirm}>Confirmar</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
