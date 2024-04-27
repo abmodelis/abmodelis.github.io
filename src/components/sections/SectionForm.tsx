@@ -1,13 +1,12 @@
 import {
-    Button,
-    Grid,
-    Box,
-    TextField,
-  } from "@mui/material";
-  import { useEffect, useState } from "react";
-  import { useForm } from "react-hook-form";
+  Button,
+  Grid,
+  TextField
+} from "@mui/material";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
   
-  import { Course, ICourseInput} from "types";
+  import { Course, ICourseInput } from "types";
   
   type Props = {
     course?: Course;
@@ -16,7 +15,7 @@ import {
     title: string;
   };
   
-  export const SectionForm: React.FC<Props> = ({ course, onFormSubmit, onCancel, title }) => {
+  export const SectionForm: React.FC<Props> = ({ course, onCancel, title }) => {
     const form = useForm<ICourseInput>();
   
     useEffect(() => {
@@ -27,7 +26,7 @@ import {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [course]);
   
-    const handleSubmit = (data: ICourseInput) => {
+    const handleSubmit = () => {
       
     };
   
