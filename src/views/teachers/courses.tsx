@@ -1,3 +1,5 @@
+import { Add } from "@mui/icons-material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   Box,
   Breadcrumbs,
@@ -14,15 +16,12 @@ import {
 } from "@mui/material";
 import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-import { Add } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 // import IconButton from '@mui/material/IconButton';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddIcon from "@mui/icons-material/Add";
 
 function Courses() {
   const [loading, setLoading] = useState(true);
@@ -50,17 +49,7 @@ function Courses() {
           </Link>
           <Typography color="text.primary">Cursos</Typography>
         </Breadcrumbs>
-        <CreateDataCurses
-          addButton={
-            <Button
-              variant="contained"
-              endIcon={<AddIcon />}
-              sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
-            >
-              Agregar curso
-            </Button>
-          }
-        />
+        <CreateDataCurses />
       </Box>
       <Typography
         visibility={courses.length === 0 ? "visible" : "hidden"}
