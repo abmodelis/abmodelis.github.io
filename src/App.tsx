@@ -2,6 +2,9 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { Students } from "./views/students";
 import Teachers from "./views/teachers";
 
+
+
+
 function App() {
   return (
     <HashRouter>
@@ -11,7 +14,7 @@ function App() {
         <Route path="/teachers/*" element={<Teachers />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
-    </HashRouter>    
+    </HashRouter>
   );
 }
 
