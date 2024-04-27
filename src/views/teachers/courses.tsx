@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
   Link,
   Tooltip,
   Typography,
@@ -15,8 +16,10 @@ import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-import { Edit } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 
 function Courses() {
   const [loading, setLoading] = useState(true);
@@ -92,10 +95,13 @@ function Courses() {
                   {course.description}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: "flex-end" }}>
-                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" endIcon={<Edit />}>
-                  Editar
+              <CardActions sx={{ justifyContent: "space-between" }}>
+                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" startIcon={<Add />}>
+                  Contenido
                 </Button>
+                <IconButton aria-label="more">
+                  <MoreHorizIcon />
+                </IconButton>
               </CardActions>
             </Card>
           </Grid>
