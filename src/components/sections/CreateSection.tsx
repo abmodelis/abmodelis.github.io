@@ -1,18 +1,22 @@
-import * as React from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionActions from "@mui/material/AccordionActions";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { SectionMaterials } from "./SectionMaterial";
-
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { IconButton } from "@mui/material";
-import { CreateSection } from "./CreateSection";
-
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Modal,
+  Paper,
+  Slide,
+  Typography,
+} from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
+import React from "react";
+import { CoursesService } from "../../services";
+import { ICourseInput } from "../../types";
+import { SectionForm } from "components/sections/SectionForm";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -23,158 +27,72 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface SectionCourseProps {
-  addButton: React.ReactNode;
+interface CreateSectionProps {
+  addButton?: React.ReactNode;
+  title: string;
+  open: boolean;
+  handleClose: () => void;
 }
 
-export const SectionCourse: React.FC<SectionCourseProps> = ({ addButton }) => {
-  const [sections, setSections] = React.useState<number>(0);
-  const [expanded, setExpanded] = React.useState<boolean>(false);
-
-  const [showIcons, setShowIcons] = React.useState<boolean>(false);
-
-  const [showCreateSectionModal, setShowCreateSectionModal] = React.useState<boolean>(false);
-
-  const [showEditSectionModal, setShowEditSectionModal] = React.useState<boolean>(false);
-
-  const handleMouseEnter = () => {
-    setShowIcons(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowIcons(false);
-  };
-
-  const handleAddSection = () => {
-    setSections((prevSections) => prevSections + 1);
-  };
-
-  const handleChange = () => {
-    setExpanded((prevExpanded) => !prevExpanded);
-  };
-
+export const CreateSection: React.FC<CreateSectionProps> = ({ addButton = null, title, open, handleClose }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
-
-  const handleOpenCreateSectionModal = () => {
-    setShowCreateSectionModal(true);
-  };
-
-  const handleCloseCreateSectionModal = () => {
-    setShowCreateSectionModal(false);
-  };
-
-  const handleOpenEditSectionModal = () => {
-    setShowEditSectionModal(true);
-  };
-
-  const handleCloseEditSectionModal = () => {
-    setShowEditSectionModal(false);
+  const handleButtonClick = (data: ICourseInput) => {
+    CoursesService.createCourse(data).then(() => {
+      handleClose();
+      window.location.reload();
+    });
   };
 
   return (
     <div>
-      <Accordion
-        expanded={expanded}
-        onChange={handleChange}
-        sx={{
-          border: "1px solid",
-          borderColor: expanded ? "#1976D2" : "gray",
-          borderRadius: "5px",
-          marginTop: "15px",
-        }}
+      {/* <div>{addButton}</div> */}
+      {addButton && <div>{addButton}</div>}
+
+      <Modal
+        open={open}
+        onClose={() => {}}
+        roboto-labelledby="modal-modal-title"
+        sx={{ overflow: "scroll" }}
+        disableEscapeKeyDown
       >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon style={{ color: expanded ? "white" : "gray" }} />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          style={{
-            backgroundColor: expanded ? "#1976D2" : "inherit",
-            color: expanded ? "white" : "black",
-          }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div style={{ flex: 0.12, alignSelf: "center" }}>Accordion Actions</div>
-          <div
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {showIcons && (
-              <>
-                <IconButton
-                  size="small"
-                  onClick={handleOpenEditSectionModal}
-                  style={{
-                    color: expanded ? "white" : "gray",
-                  }}
+        <Box style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+          <Grid container direction="column" alignItems="center" justifyContent="center">
+            <Grid item>
+              <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
+                <Typography id="modal-modal-title" variant="h6" component="h4">
+                  {title}
+                </Typography>
+                <SectionForm onFormSubmit={handleButtonClick} onCancel={() => setOpenDialog(true)} title={title} />
+                <Dialog
+                  open={openDialog}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={() => {}}
+                  aria-describedby="alert-dialog-slide-description"
                 >
-                  <EditIcon fontSize="small" />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  onClick={() => setOpenDialog(true)}
-                  style={{
-                    color: expanded ? "white" : "gray",
-                  }}
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-
-                <IconButton size="small" onClick={handleAddSection}>
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </>
-            )}
-          </div>
-        </AccordionSummary>
-
-        <CreateSection
-          title="Editar título de la sección"
-          open={showEditSectionModal}
-          handleClose={handleCloseEditSectionModal}
-        />
-
-        <Dialog
-          open={openDialog}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={() => {}}
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle>{"¿Esta seguro de eliminar esta sección?"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              Se eliminará la sección y todos los datos en él.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
-            <Button
-              onClick={() => {
-                setOpenDialog(false);
-              }}
-            >
-              Confirmar
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        <AccordionDetails>
-          {[...Array(sections)].map((_, index) => (
-            <SectionMaterials key={index} />
-          ))}
-        </AccordionDetails>
-        <AccordionActions style={{ justifyContent: "flex-start", marginLeft: "10px" }}>
-          <CreateSection
-            addButton={React.cloneElement(addButton as React.ReactElement, { onClick: handleOpenCreateSectionModal })}
-            title="Título de la clase"
-            open={showCreateSectionModal}
-            handleClose={handleCloseCreateSectionModal}
-          />
-        </AccordionActions>
-      </Accordion>
+                  <DialogTitle>{"Estas seguro que deseas cancelar la accion?"}</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                      Esta accion anulara todos los datos que hayas ingresado en el formulario de {title.toLowerCase()}.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
+                    <Button
+                      onClick={() => {
+                        handleClose();
+                        setOpenDialog(false);
+                      }}
+                    >
+                      Confirmar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
     </div>
   );
 };
