@@ -36,7 +36,7 @@ const CourseView: React.FC = () => {
           </Link>
           <Typography color="text.primary">{course?.title || "..."}</Typography>
         </Breadcrumbs>
-        {(course && <UpdateDataCourse course={course} />) || <Typography variant="body2">Cargando...</Typography>}
+        
       </Box>
       {(course && <CourseData course={course} />) || <Typography variant="body2">Cargando...</Typography>}
     </>
