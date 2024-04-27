@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { Course } from "types";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -68,7 +68,17 @@ export const CourseData: React.FC<Props> = ({ course }) => {
       <Grid item xs={4} sx={{ display: "flex", justifyContent: "flex-start" }}>
         <Box width={"100%"}>
         <CreateSection
-          addButton={<Button onClick={handleOpenCreateSectionModal} endIcon={<AddIcon style={{ color: 'white'}}/>} sx={{color: 'white', bgcolor: '#1976D2', textTransform: 'none', fontFamily:'Roboto', fontSize:'18px', width: '257px', height: '52px', '&:hover': {bgcolor: '#1976D2',}, }}>Agregar Sección</Button>}
+          addButton={
+            <Button 
+              onClick={handleOpenCreateSectionModal} 
+              endIcon={<AddIcon style={{ color: 'white'}}/>} 
+              sx={{color: 'white', bgcolor: '#1976D2', textTransform: 'none', width: '257px', height: '52px', '&:hover': {bgcolor: '#1976D2',}, }}
+            >
+              <Typography variant="h6">
+                Agregar Sección
+              </Typography>
+            </Button>
+          }
           title="Título de la sección"
           open={showCreateSectionModal}
           handleClose={handleCloseCreateSectionModal}
@@ -76,16 +86,6 @@ export const CourseData: React.FC<Props> = ({ course }) => {
           
         </Box>
       </Grid>
-      {/* <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Box ml={2}>
-          <Button sx={{width: '141px', height: '50px', textTransform: 'none', fontFamily:'Roboto', fontSize:'18px'}}>Cancelar</Button>
-        </Box>
-        <Box ml={2}>
-          <Button type="submit" variant="contained" color="success" sx={{width: '141px', height: '50px', textTransform: 'none', fontFamily:'Roboto', fontSize:'18px'}}>
-            Guardar
-          </Button>
-        </Box>
-      </Grid> */}
     </Grid>
   );
 };
