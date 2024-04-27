@@ -66,7 +66,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           minLength: { value: 5, message: "Minimo 5 caracteres" },
           maxLength: { value: 60, message: "Maximo 60 caracteres" },
           pattern: {
-            value: /^(?=.*[A-Za-z0-9])[A-Za-z0-9\s]{5,60}$/,
+            value: /^(?=.*[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ])[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]{5,60}$/,
             message: "Solo se aceptan letras y números, y al menos 5 caracteres"
           }
         })}
