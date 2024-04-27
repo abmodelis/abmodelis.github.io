@@ -35,16 +35,12 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   };
   return (
     <Grid container spacing={2} sx={{ p: 3 }}>
-      <Grid item xs={8}>
-        <Typography textAlign={"center"} variant="h4">
+      <Grid item xs={8} height="240px" display="flex" direction="column" justifyContent="space-between" >
+        <Typography textAlign={"left"} variant="h4">
           {course.title}
         </Typography>
-        <Divider sx={{ my: 2 }} />
-        <Typography textAlign={"center"} variant="h6">
-          Descripción:
-        </Typography>
         <Typography
-          textAlign={"center"}
+          textAlign={"left"}
           variant="body1"
           sx={{
             maxHeight: 500,
@@ -56,7 +52,6 @@ export const CourseData: React.FC<Props> = ({ course }) => {
           <br />
           {course.description}
         </Typography>
-        <Divider sx={{ my: 2 }} />
         <Box width={"100%"} display={"flex"}>
           <Typography px={3} textAlign={"start"} variant="h6">
             {course.price ? `Bs. ${course.price}` : "Gratis"}
@@ -67,7 +62,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
         </Box>
       </Grid>
       <Grid item xs={4} sx={{ display: "flex", justifyContent: "center" }}>
-        <img src={course.image_path} alt={course.title} style={{ height: "240px", width: "342px" }} />
+        <img src={course.image_path} alt={course.title} style={{ maxHeight: "240px", maxWidth: "342px" }} />
       </Grid>
 
       <Grid item xs={4} sx={{ display: "flex", justifyContent: "flex-start" }}>
@@ -81,7 +76,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
           
         </Box>
       </Grid>
-      <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-end" }}>
+      {/* <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Box ml={2}>
           <Button sx={{width: '141px', height: '50px', textTransform: 'none', fontFamily:'Roboto', fontSize:'18px'}}>Cancelar</Button>
         </Box>
@@ -90,7 +85,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
             Guardar
           </Button>
         </Box>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };
