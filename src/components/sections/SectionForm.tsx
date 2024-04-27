@@ -37,13 +37,14 @@ import { useForm } from "react-hook-form";
             required: "Este campo es requerido",
             minLength: { value: 5, message: "Minimo 5 caracteres" },
             maxLength: { value: 100, message: "Maximo 100 caracteres" },
-            pattern: { value: /^[A-Za-z0-9\s]+$/, message: "Solo se aceptan letras y numeros" },
+            pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+$/, message: "Solo se aceptan letras y numeros" },
           })}
           label={title}
           fullWidth
           sx={{ mt: 2, mb: 1.5 }}
           error={!!form.formState.errors.title}
           helperText={form.formState.errors.title?.message}
+          inputProps={{ maxLength: 60 }} // Limitar la longitud máxima a 60 caracteres
         />
         
           
