@@ -1,10 +1,10 @@
 import {
     Button,
     Grid,
-    Box,
+    //Box,
     TextField,
   } from "@mui/material";
-  import { useEffect, useState } from "react";
+  import { useEffect, /*useState*/ } from "react";
   import { useForm } from "react-hook-form";
   
   import { Course, ICourseInput} from "types";
@@ -16,7 +16,7 @@ import {
     title: string;
   };
   
-  export const SectionForm: React.FC<Props> = ({ course, onFormSubmit, onCancel, title }) => {
+  export const SectionForm: React.FC<Props> = ({ course, /*onFormSubmit*/ onCancel, title }) => {
     const form = useForm<ICourseInput>();
   
     useEffect(() => {
@@ -27,7 +27,7 @@ import {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [course]);
   
-    const handleSubmit = (data: ICourseInput) => {
+    const handleSubmit = (/*data ICourseInput*/) => {
       
     };
   
@@ -37,8 +37,8 @@ import {
           {...form.register("title", {
             required: "Este campo es requerido",
             minLength: { value: 5, message: "Minimo 5 caracteres" },
-            maxLength: { value: 100, message: "Maximo 100 caracteres" },
-            pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]+$/, message: "Solo se aceptan letras y numeros" },
+            maxLength: { value: 60, message: "Maximo 60 caracteres" },
+            pattern: { value: /^(?=.*[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ])[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]{5,60}$/, message: "Solo se aceptan letras y numeros" },
           })}
           label={title}
           fullWidth
