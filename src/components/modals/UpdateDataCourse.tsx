@@ -56,7 +56,7 @@ export const UpdateDataCourse: React.FC<Props> = ({ course }) => {
         endIcon={<Edit />}
         sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
       >
-        Editar
+        Editar datos
       </Button>
 
       <Modal
