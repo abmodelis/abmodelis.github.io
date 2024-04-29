@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClassesAccordion from '../classes';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import { CourseClassesForm } from "components/forms/CourseClassesForm";
 import { Classes } from "types/Classes";
 import EditIcon from '@mui/icons-material/Edit';
@@ -50,14 +50,14 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
   return (
     <div>
       <Accordion
+        expanded={expanded}
         sx={{
           width: '100%',
           border: expanded ? '1px solid #1976D2' : 'none',
         }}
-        onChange={handleChange}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: expanded ? '#FFFFFF' : 'inherit' }} />}
+          expandIcon={<ExpandMoreIcon onClick={() => setExpanded(!expanded)} sx={{ color: expanded ? '#FFFFFF' : 'inherit', ml: 'auto' }} onChange={handleChange} />}
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{
@@ -69,12 +69,23 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
           onMouseOver={() => setIsHovering(true)}
           onMouseOut={() => setIsHovering(false)}
         >
-          <Typography variant='h5' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}> Sección {sectionNumber}: {title} {isHovering && (
-            <>
-              <EditIcon sx={{ ml: 1, visibility: 'visible' }} />
-              <DeleteIcon sx={{ ml: 1, visibility: 'visible' }} />
-            </>
-          )}</Typography>
+          <Typography variant='h5'>
+            Sección {sectionNumber}: {title}
+            {isHovering && (
+              <>
+                <IconButton
+                  onClick={() => {/* Coloca aquí la lógica para editar */ }}
+                  sx={{ color: expanded ? '#FFFFFF' : 'inherit' }}>
+                  <EditIcon sx={{ visibility: 'visible' }} />
+                </IconButton>
+                <IconButton
+                  onClick={() => {/* Coloca aquí la lógica para editar */ }}
+                  sx={{ color: expanded ? '#FFFFFF' : 'inherit' }}>
+                  <DeleteIcon sx={{ visibility: 'visible' }} />
+                </IconButton>
+              </>
+            )}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid sx={{ width: "100%" }}>
@@ -84,7 +95,7 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
                 showClassForm ? (
                   <CourseClassesForm onFormSubmit={handleFormSubmit} onCancel={handleCancel} />
                 ) : (
-                  <Button variant="contained" onClick={handleAddClassClick}>Agregar sección</Button>
+                  <Button variant="contained" onClick={handleAddClassClick}>Agregar clase</Button>
                 )
               }
             </Box>
