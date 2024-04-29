@@ -7,6 +7,8 @@ import ClassesAccordion from '../classes';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { CourseClassesForm } from "components/forms/CourseClassesForm";
 import { Classes } from "types/Classes";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type SectionAccordionProps = {
   sectionNumber: number;
@@ -43,6 +45,8 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
 
   const [classes, setClasses] = useState<JSX.Element[]>([]);
 
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
     <div>
       <Accordion
@@ -62,12 +66,19 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
               color: expanded ? '#FFFFFF' : 'inherit',
             }
           }}
+          onMouseOver={() => setIsHovering(true)}
+          onMouseOut={() => setIsHovering(false)}
         >
-          <Typography variant='h5'> Sección {sectionNumber}: {title}</Typography>
+          <Typography variant='h5' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}> Sección {sectionNumber}: {title} {isHovering && (
+            <>
+              <EditIcon sx={{ ml: 1, visibility: 'visible' }} />
+              <DeleteIcon sx={{ ml: 1, visibility: 'visible' }} />
+            </>
+          )}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid sx={{ width: "100%" }}>
-            <Box sx={{ display: "felx", maxWidth: "1025px", pt: 4 }}>
+            <Box sx={{ display: "felx", maxWidth: "1025px", pt: 1 }}>
               {classes.map((classes) => classes)}
               {
                 showClassForm ? (
