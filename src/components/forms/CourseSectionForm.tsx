@@ -44,7 +44,7 @@ export const CourseSectionForm: React.FC<Props> = ({ section, onFormSubmit, onCa
         helperText={form.formState.errors.title?.message}
         inputProps={{ maxLength: 60 }} // Limitar la longitud máxima a 60 caracteres
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="flex-end">
         <Grid item>
           <Button onClick={onCancel}>
             Cancelar

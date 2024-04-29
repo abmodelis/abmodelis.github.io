@@ -61,7 +61,7 @@ export const UpdateDataCourse: React.FC<Props> = ({ course }) => {
 
       <Modal
         open={open}
-        onClose={() => {}}
+        onClose={() => { }}
         roboto-labelledby="modal-modal-title"
         sx={{ overflow: "scroll" }}
         disableEscapeKeyDown
@@ -78,13 +78,13 @@ export const UpdateDataCourse: React.FC<Props> = ({ course }) => {
                   open={openDialog}
                   TransitionComponent={Transition}
                   keepMounted
-                  onClose={() => {}}
+                  onClose={() => { }}
                   aria-describedby="alert-dialog-slide-description"
                 >
                   <DialogTitle>{"¿Estás seguro de que deseas cancelar la acción?"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                    Esta acción anulará todos los datos que hayas ingresado en el formulario de editar los datos para un curso.
+                      Esta acción anulará todos los datos que hayas ingresado en el formulario de editar los datos para un curso.
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>

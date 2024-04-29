@@ -23,7 +23,6 @@ import { useNavigate } from "react-router-dom";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React from "react";
 
-
 // Definir el componente Courses como un componente funcional React
 function Courses() {
   const [loading, setLoading] = useState(true);
@@ -114,26 +113,26 @@ function Courses() {
                   Contenido
                 </Button>
                 <IconButton aria-label="more" onClick={handleMenu}>
-                  <MoreHorizIcon/>
+                  <MoreHorizIcon />
                 </IconButton>
                 <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Editar</MenuItem>
-                <MenuItem onClick={handleClose}>Archivar</MenuItem>
-              </Menu>
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Editar</MenuItem>
+                  <MenuItem onClick={handleClose}>Archivar</MenuItem>
+                </Menu>
               </CardActions>
             </Card>
           </Grid>
@@ -142,5 +141,4 @@ function Courses() {
     </>
   );
 }
-
 export default Courses;
