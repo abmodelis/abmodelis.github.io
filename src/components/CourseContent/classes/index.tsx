@@ -6,7 +6,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { TextField, Typography } from '@mui/material';
 import Player from 'react-player';
 
-export default function ClassesAccordion() {
+type ClassAccordionProps = {
+  classNumber: number;
+  title: string;
+};
+
+export default function ClassesAccordion({ classNumber, title }: ClassAccordionProps) {
   const [url, setUrl] = useState('');
 
   const handleUrlChange = (event: { target: { value: SetStateAction<string>; }; }) => {
@@ -37,7 +42,7 @@ export default function ClassesAccordion() {
             }
           }}
         >
-          <Typography variant='h6'> Accordion 1 </Typography>
+          <Typography variant='h6'> Clase {classNumber}: {title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <TextField fullWidth label="URL del video" id="fullWidth" onChange={handleUrlChange} sx={{ mb: 1, mt: 2}}/>
