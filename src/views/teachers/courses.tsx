@@ -23,7 +23,6 @@ import { useNavigate } from "react-router-dom";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import React from "react";
 
-// Definir el componente Courses como un componente funcional React
 function Courses() {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
