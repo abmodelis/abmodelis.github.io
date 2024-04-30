@@ -5,9 +5,10 @@ import { useCallback, useEffect, useState } from "react";
 type Props = {
   imageFile: File | null;
   onFileUpload: (file: File) => void;
+  setError: (error: string | null) => void;
 };
 
-export function DragDropFileUpload({ imageFile, onFileUpload }: Props) {
+export function DragDropFileUpload({ imageFile, onFileUpload, setError }: Props) {
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -41,7 +42,12 @@ export function DragDropFileUpload({ imageFile, onFileUpload }: Props) {
   }, []);
 
   const handleFileChange = (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      setError("Solo se aceptan archivos tipo JPG,PNG y JPEG");
+      return;
+    }
     setLoading(true);
+    setError(null);
     onFileUpload(file);
 
     const reader = new FileReader();

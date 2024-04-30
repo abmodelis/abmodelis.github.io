@@ -24,9 +24,10 @@ type Props = {
   onCancel: () => void;
 };
 
-export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) => {
+export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel}) => {
   const form = useForm<ICourseInput>();
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!course) return;
@@ -50,6 +51,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
       form.setError("image", { message: "Este campo es requerido" });
       return;
     }
+    setImageError(null);
     const fileName = course?.image_path.split("/").pop();
     if (fileName) {
       data.image_url = course?.image_path;
@@ -123,10 +125,11 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
       </Grid>
       <Grid sx={{ mt: 1.5, mb: 1.5 }}>
         <Box>
-          <DragDropFileUpload imageFile={imageFile} onFileUpload={setImageFile} />
+          <DragDropFileUpload imageFile={imageFile} onFileUpload={setImageFile} setError={setImageError} />
           {form.formState.errors.image && (
             <FormHelperText error={!!form.formState.errors.image}>{form.formState.errors.image.message}</FormHelperText>
           )}
+          {imageError && <FormHelperText error>{imageError}</FormHelperText>}
         </Box>
       </Grid>
       <Grid container spacing={2} justifyContent="flex-end">
