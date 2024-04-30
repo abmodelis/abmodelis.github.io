@@ -1,7 +1,7 @@
 import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
-import { CourseData, UpdateDataCourse } from "components";
+import { CourseData } from "components";
 import { useEffect, useState } from "react";
 import { CoursesService } from "services";
 import { Course } from "types";
@@ -36,7 +36,6 @@ const CourseView: React.FC = () => {
           </Link>
           <Typography color="text.primary">{course?.title || "..."}</Typography>
         </Breadcrumbs>
-        {(course && <UpdateDataCourse course={course} />) || <Typography variant="body2">Cargando...</Typography>}
       </Box>
       {(course && <CourseData course={course} />) || <Typography variant="body2">Cargando...</Typography>}
     </>
