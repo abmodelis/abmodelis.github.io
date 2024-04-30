@@ -18,8 +18,7 @@ import { CoursesService } from "../../services";
 import { Course } from "../../types";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 function Courses() {
   const [loading, setLoading] = useState(true);

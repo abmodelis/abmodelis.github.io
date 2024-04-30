@@ -83,7 +83,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         {...form.register("description", {
           required: "Este campo es requerido",
         })}
-        label="Descripcion del curso"
+        label="Descripción del curso"
         multiline
         rows={2}
         fullWidth
@@ -124,9 +124,6 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
         </Grid>
       </Grid>
       <Grid sx={{ mt: 1.5, mb: 1.5 }}>
-
-        <InputLabel htmlFor="outlined-adornment-amount">Imagen Miniatura</InputLabel>
-
         <Box>
           <DragDropFileUpload imageFile={imageFile} onFileUpload={setImageFile} setError={setImageError} />
           {form.formState.errors.image && (
