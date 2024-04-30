@@ -9,6 +9,8 @@ import {
   Grid,
   IconButton,
   Link,
+  Menu,
+  MenuItem,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -18,12 +20,23 @@ import { CoursesService } from "../../services";
 import { Course } from "../../types";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import React from "react";
 
 function Courses() {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
   const navigator = useNavigate();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     if (!loading) return;
@@ -98,9 +111,27 @@ function Courses() {
                 <Button onClick={handleEdit.bind(null, course.id)} variant="contained" startIcon={<Add />}>
                   Contenido
                 </Button>
-                <IconButton aria-label="more">
+                <IconButton aria-label="more" onClick={handleMenu}>
                   <MoreHorizIcon />
                 </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Editar</MenuItem>
+                  <MenuItem onClick={handleClose}>Archivar</MenuItem>
+                </Menu>
               </CardActions>
             </Card>
           </Grid>
@@ -109,5 +140,4 @@ function Courses() {
     </>
   );
 }
-
 export default Courses;

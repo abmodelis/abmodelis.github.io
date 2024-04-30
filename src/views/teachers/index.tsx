@@ -1,10 +1,14 @@
+// Importar los componentes necesarios de React Router
 import { Route, Routes } from "react-router-dom";
+
+// Importe el componente Cursos (suponiendo que gestione la funcionalidad de cursos)
 import Courses from "./courses";
 
 import { Layout } from "layout";
 import CourseView from "./Course";
 
 const Teachers = () => {
+  // Renderizar un componente Rutas para definir rutas anidadas dentro de Teachers
   return (
     <>
       <Layout>
@@ -20,4 +24,5 @@ const Teachers = () => {
   );
 };
 
+// Exporte el componente Profesores como exportación por defecto para utilizarlo en otras partes de su aplicación.
 export default Teachers;

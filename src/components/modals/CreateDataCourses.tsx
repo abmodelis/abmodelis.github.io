@@ -76,16 +76,15 @@ export const CreateDataCurses: React.FC = () => {
                   onClose={() => {}}
                   aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle>{"Estas seguro que deseas cancelar la acción?"}</DialogTitle>
+                  <DialogTitle>{"¿Estás seguro de que deseas cancelar la acción?"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Esta acción anulara todos los datos que hayas ingresado en el formulario de crear los datos para
-                      un nuevo curso.
+                    Esta acción anulará todos los datos que hayas ingresado en el formulario de crear los datos para un nuevo curso.
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
-                    <Button onClick={handleClose}>Confirmar</Button>
+                    <Button onClick={handleClose} variant="contained" color="error">Confirmar</Button>
                   </DialogActions>
                 </Dialog>
               </Paper>

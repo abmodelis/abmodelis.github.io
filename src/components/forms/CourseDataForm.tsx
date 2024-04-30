@@ -63,12 +63,9 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
       <TextField
         {...form.register("title", {
           required: "Este campo es requerido",
-          minLength: { value: 5, message: "Minimo 5 caracteres" },
+          minLength: { value: 12, message: "Minimo 12 caracteres" },
           maxLength: { value: 60, message: "Maximo 60 caracteres" },
-          pattern: {
-            value: /^(?=.*[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ])[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]{5,60}$/,
-            message: "Solo se aceptan letras y números, y al menos 5 caracteres",
-          },
+          pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se aceptan letras y numeros" },
         })}
         label="Titulo del curso"
         fullWidth
@@ -80,8 +77,11 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
       <TextField
         {...form.register("description", {
           required: "Este campo es requerido",
+          minLength: { value: 12, message: "Minimo 12 caracteres" },
+          maxLength: { value: 130, message: "Maximo 130 caracteres" },
+          pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se aceptan letras y numeros" },
         })}
-        label="Descripción del curso"
+        label="Descripcion del curso"
         multiline
         rows={2}
         fullWidth
@@ -115,16 +115,14 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
               label="Precio"
               defaultValue={0}
               type="number"
-              inputProps={{ min: 0, step: 0.01, max: 99999999.99 }}
+              inputProps={{ min: 500, step: 0.01, max: 1500.00 }}
             />
             {form.formState.errors.price && <FormHelperText>{form.formState.errors.price.message}</FormHelperText>}
           </FormControl>
         </Grid>
       </Grid>
       <Grid sx={{ mt: 1.5, mb: 1.5 }}>
-        <InputLabel htmlFor="outlined-adornment-amount">Imagen Miniatura</InputLabel>
-
-        <Box {...form.register("image", { required: "Debe subir una imagen" })}>
+        <Box>
           <DragDropFileUpload imageFile={imageFile} onFileUpload={setImageFile} />
           {form.formState.errors.image && (
             <FormHelperText error={!!form.formState.errors.image}>{form.formState.errors.image.message}</FormHelperText>

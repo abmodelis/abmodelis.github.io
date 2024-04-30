@@ -56,12 +56,12 @@ export const UpdateDataCourse: React.FC<Props> = ({ course }) => {
         endIcon={<Edit />}
         sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
       >
-        Editar
+        Editar datos
       </Button>
 
       <Modal
         open={open}
-        onClose={() => {}}
+        onClose={() => { }}
         roboto-labelledby="modal-modal-title"
         sx={{ overflow: "scroll" }}
         disableEscapeKeyDown
@@ -71,26 +71,25 @@ export const UpdateDataCourse: React.FC<Props> = ({ course }) => {
             <Grid item>
               <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
                 <Typography id="modal-modal-title" variant="h6" component="h4">
-                  Crear datos del curso
+                  Editar datos del curso
                 </Typography>
                 <CourseForm course={course} onFormSubmit={handleButtonClick} onCancel={() => setOpenDialog(true)} />
                 <Dialog
                   open={openDialog}
                   TransitionComponent={Transition}
                   keepMounted
-                  onClose={() => {}}
+                  onClose={() => { }}
                   aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle>{"Estas seguro que deseas cancelar la accion?"}</DialogTitle>
+                  <DialogTitle>{"¿Estás seguro de que deseas cancelar la acción?"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Esta accion anulara todos los datos que hayas ingresado en el formulario de crear los datos para
-                      un nuevo curso.
+                      Esta acción anulará todos los datos que hayas ingresado en el formulario de editar los datos para un curso.
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
-                    <Button onClick={handleClose}>Confirmar</Button>
+                    <Button onClick={handleClose} variant="contained" color="error">Confirmar</Button>
                   </DialogActions>
                 </Dialog>
               </Paper>
