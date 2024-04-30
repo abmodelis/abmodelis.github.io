@@ -69,8 +69,8 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           maxLength: { value: 60, message: "Maximo 60 caracteres" },
           pattern: {
             value: /^(?=.*[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ])[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s]{5,60}$/,
-            message: "Solo se aceptan letras y números, y al menos 5 caracteres"
-          }
+            message: "Solo se aceptan letras y números, y al menos 5 caracteres",
+          },
         })}
         label="Titulo del curso"
         fullWidth

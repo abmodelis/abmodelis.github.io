@@ -143,4 +143,4 @@ export const SectionMaterials: React.FC = () => {
       </Accordion>
     </div>
   );
-}
+};
