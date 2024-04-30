@@ -37,7 +37,7 @@ export const CourseSectionForm: React.FC<Props> = ({ section, onFormSubmit, onCa
           maxLength: { value: 60, message: "Maximo 60 caracteres" },
           pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se aceptan letras y numeros" },
         })}
-        label="Titulo del curso"
+        label="Título de la sección"
         fullWidth
         sx={{ mt: 2, mb: 1.5 }}
         error={!!form.formState.errors.title}

@@ -129,11 +129,13 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           )}
         </Box>
       </Grid>
-      <Grid container>
-        <Grid item sx={{ ml: 26 }}>
-          <Button onClick={onCancel}>Cancelar</Button>
+      <Grid container spacing={2} justifyContent="flex-end">
+        <Grid item>
+          <Button onClick={onCancel}>
+            Cancelar
+          </Button>
         </Grid>
-        <Grid item sx={{ ml: 2 }}>
+        <Grid item >
           <Button type="submit" variant="contained" color="success">
             Guardar
           </Button>
