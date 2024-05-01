@@ -78,8 +78,8 @@ export const CourseData: React.FC<Props> = ({ course }) => {
 
   return (
     <Grid container rowSpacing={2} sx={{ p: 3 }}>
-      <Card sx={{ display: "flex", maxHeight: "240px" }}>
-        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      <Card sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
             <Typography textAlign={"left"} variant="h4">
               {course.title}
@@ -90,22 +90,24 @@ export const CourseData: React.FC<Props> = ({ course }) => {
             </Typography>
           </CardContent>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
-            <Box>
-              <Typography px={2} textAlign={"start"} variant="h6">
+            <Box sx={{ display: "flex" }}>
+              <Typography px={2} variant="h6">
                 {course.price ? `Bs. ${course.price}` : "Gratis"}
               </Typography>
-              <Typography px={2} textAlign={"start"} variant="h6" display={"flex"} alignItems={"center"}>
+              <Typography px={2} variant="h6" display={"flex"} alignItems={"center"}>
                 {visibilityStatus[course.status]}
               </Typography>
             </Box>
-            <Button variant="contained" color="error">
-              <ArchiveOutlinedIcon />
-            </Button>
+            <Box sx={{ mr: 1.5 }}>
+              <Button variant="contained" color="error">
+                <ArchiveOutlinedIcon />
+              </Button>
+            </Box>
           </Box>
         </Box>
         <CardMedia
           component="img"
-          sx={{ width: "342px", height: "240px" }}
+          sx={{ width: "342px" }}
           image={course.image_path}
           alt={course.title}
         />
