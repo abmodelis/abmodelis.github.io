@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
+import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -88,13 +89,18 @@ export const CourseData: React.FC<Props> = ({ course }) => {
               {course.description}
             </Typography>
           </CardContent>
-          <Box sx={{ display: "flex", alignItems: "center", pb: 1 }}>
-            <Typography px={2} textAlign={"start"} variant="h6">
-              {course.price ? `Bs. ${course.price}` : "Gratis"}
-            </Typography>
-            <Typography px={2} textAlign={"start"} variant="h6" display={"flex"} alignItems={"center"}>
-              {visibilityStatus[course.status]}
-            </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
+            <Box>
+              <Typography px={2} textAlign={"start"} variant="h6">
+                {course.price ? `Bs. ${course.price}` : "Gratis"}
+              </Typography>
+              <Typography px={2} textAlign={"start"} variant="h6" display={"flex"} alignItems={"center"}>
+                {visibilityStatus[course.status]}
+              </Typography>
+            </Box>
+            <Button variant="contained" color="error">
+              <ArchiveOutlinedIcon />
+            </Button>
           </Box>
         </Box>
         <CardMedia
@@ -109,8 +115,8 @@ export const CourseData: React.FC<Props> = ({ course }) => {
           {sections.map((section) => section)}
           <Grid container justifyContent="flex-start" sx={{ pt: 2 }}>
             <Grid item>
-              <Button variant="contained" onClick={handleAddSectionClick} endIcon={<AddIcon />}>
-                Agregar sección
+              <Button variant="contained" onClick={handleAddSectionClick}>
+                <AddIcon />
               </Button>
             </Grid>
           </Grid>

@@ -48,10 +48,9 @@ export const CreateDataCurses: React.FC = () => {
       <Button
         onClick={handleOpen}
         variant="contained"
-        endIcon={<AddIcon />}
         sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
       >
-        Agregar curso
+        <AddIcon />
       </Button>
 
       <Modal

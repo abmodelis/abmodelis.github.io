@@ -93,8 +93,8 @@ function Courses() {
                 </Typography>
               </CardContent>
               <CardActions sx={{ justifyContent: "space-between" }}>
-                <Button onClick={handleEdit.bind(null, course.id)} variant="contained" startIcon={<Add />}>
-                  Contenido
+                <Button onClick={handleEdit.bind(null, course.id)} variant="contained">
+                  <Add />
                 </Button>
               </CardActions>
             </Card>

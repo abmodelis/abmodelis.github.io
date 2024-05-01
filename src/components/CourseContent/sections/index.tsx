@@ -6,10 +6,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClassesAccordion from '../classes';
 import { Box, Button, Grid, IconButton, Modal, Typography } from '@mui/material';
 import { CourseClassesForm } from "components/forms/CourseClassesForm";
-import { Classes } from "types/Classes";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from "@mui/icons-material/Add";
+import { IClassesInput } from 'types';
 
 type SectionAccordionProps = {
   sectionNumber: number;
@@ -25,7 +25,7 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
     setShowClassForm(true);
   };
 
-  const handleFormSubmit = (classData: Classes) => {
+  const handleFormSubmit = (classData: IClassesInput) => {
     // Aquí agregas la nueva sección con los datos del formulario
     setClasses(prevSections => [
       ...prevSections,
@@ -86,7 +86,7 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
             Sección {sectionNumber}: {title}
             <Box sx={{ display: 'inline-flex', opacity: isHovering ? 1 : 0, transition: 'opacity 0.3s' }}>
               <IconButton
-                onClick={() => {/* Coloca aquí la lógica para editar */ }}
+                onClick={() => {/*Coloca aquí la lógica para editar */}}
                 sx={{ color: expanded ? '#FFFFFF' : 'inherit', ml: 1 }}>
                 <EditIcon sx={{ visibility: 'visible' }} />
               </IconButton>
@@ -104,7 +104,9 @@ export default function SectionAccordion({ sectionNumber, title }: SectionAccord
               {classes.map((classes) => classes)}
               <Grid container justifyContent="flex-start" sx={{ pt: 2 }}>
                 <Grid item>
-                  <Button variant="contained" onClick={handleAddClassClick} endIcon={<AddIcon />}>Agregar clase</Button>
+                  <Button variant="contained" onClick={handleAddClassClick}>
+                    <AddIcon />
+                  </Button>
                 </Grid>
               </Grid>
               <Modal open={showClassForm} onClose={handleCancel}>
