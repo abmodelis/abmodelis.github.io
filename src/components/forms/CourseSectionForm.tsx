@@ -1,30 +1,34 @@
-import {
-  Button,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import { ISectionInput } from "types";
 import { Section } from "types/Section";
-import { useEffect } from 'react';
 
 type Props = {
   section?: Section;
-  onFormSubmit: (data: Section) => void;
+  onFormSubmit: (data: ISectionInput) => void;
   onCancel: () => void;
-}
+};
 
 export const CourseSectionForm: React.FC<Props> = ({ section, onFormSubmit, onCancel }) => {
-  const form = useForm<Section>();
+  const form = useForm<ISectionInput>();
+  const location = useLocation();
+
+  const { course_id } = location.state || {};
 
   useEffect(() => {
     if (section) {
       form.reset({
+        course_id: course_id,
         title: section.title,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [section]);
 
-  const handleSubmit = (data: Section) => {
+  const handleSubmit = (data: ISectionInput) => {
+    data.course_id = course_id;
     onFormSubmit(data);
   };
 
@@ -46,11 +50,9 @@ export const CourseSectionForm: React.FC<Props> = ({ section, onFormSubmit, onCa
       />
       <Grid container spacing={2} justifyContent="flex-end">
         <Grid item>
-          <Button onClick={onCancel}>
-            Cancelar
-          </Button>
+          <Button onClick={onCancel}>Cancelar</Button>
         </Grid>
-        <Grid item >
+        <Grid item>
           <Button type="submit" variant="contained" color="success">
             Guardar
           </Button>
