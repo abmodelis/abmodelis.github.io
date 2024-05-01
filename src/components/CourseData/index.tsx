@@ -78,8 +78,9 @@ export const CourseData: React.FC<Props> = ({ course }) => {
 
   return (
     <Grid container rowSpacing={2} sx={{ p: 3 }}>
+      <Grid sx={{ width: "100%" }}>
       <Card sx={{ display: "flex" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", width: "100%"}}>
           <CardContent sx={{ flex: "1 0 auto" }}>
             <Typography textAlign={"left"} variant="h4">
               {course.title}
@@ -112,6 +113,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
           alt={course.title}
         />
       </Card>
+      </Grid>
       <Grid sx={{ width: "100%" }}>
         <Box sx={{ display: "flex", flexDirection: "column", pt: 4 }}>
           {sections.map((section) => section)}
