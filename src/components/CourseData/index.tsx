@@ -53,12 +53,12 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   };
 
   const visibilityStatus: Record<number, JSX.Element> = {
-    0: (
+    1: (
       <>
         Visible <Visibility sx={{ ml: 1 }} />
       </>
     ),
-    1: (
+    0: (
       <>
         Oculto <VisibilityOff sx={{ ml: 1 }} />
       </>
