@@ -1,37 +1,47 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
-import { Course } from "types";
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import SectionAccordion from "components/CourseContent/sections";
-import { useState } from "react";
 import { CourseSectionForm } from "components/forms/CourseSectionForm";
-import { Section } from "types/Section";
-import AddIcon from "@mui/icons-material/Add";
+import * as React from "react";
+import { useState } from "react";
+import { SectionService } from "services";
+import { Course, ISectionInput } from "types";
 
 type Props = {
   course: Course;
 };
 
 export const CourseData: React.FC<Props> = ({ course }) => {
-
   const [sections, setSections] = useState<JSX.Element[]>([]);
 
   const [showSectionForm, setShowSectionForm] = useState(false);
+
+  React.useEffect(() => {
+    setSections(() =>
+      course.units.map((section, index) => (
+        <Box key={section.id} sx={{ mb: 2 }}>
+          <SectionAccordion key={section.id} sectionNumber={index + 1} title={section.title} />
+        </Box>
+      ))
+    );
+  }, [course]);
 
   const handleAddSectionClick = () => {
     setShowSectionForm(true);
   };
 
-  const handleFormSubmit = (sectionData: Section) => {
+  const handleFormSubmit = async (sectionData: ISectionInput) => {
     // Aquí agregas la nueva sección con los datos del formulario
-    setSections(prevSections => [
+    const newSection = await SectionService.createSection(sectionData);
+    setSections((prevSections) => [
       ...prevSections,
-      <Box key={prevSections.length} sx={{ mb: 2 }}>
-        <SectionAccordion key={prevSections.length} sectionNumber={prevSections.length + 1} title={sectionData.title} />
-      </Box>
+      <Box key={newSection.id} sx={{ mb: 2 }}>
+        <SectionAccordion key={newSection.id} sectionNumber={prevSections.length + 1} title={newSection.title} />
+      </Box>,
     ]);
     setShowSectionForm(false); // Oculta el formulario después de agregar la sección
   };
@@ -41,15 +51,15 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   };
 
   const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 500,
-    bgcolor: 'background.paper',
+    bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    borderRadius: '10px',
+    borderRadius: "10px",
   };
 
   const visibilityStatus: Record<number, JSX.Element> = {
@@ -70,18 +80,11 @@ export const CourseData: React.FC<Props> = ({ course }) => {
       <Card sx={{ display: "flex", maxHeight: "240px" }}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography
-              textAlign={"left"}
-              variant="h4"
-            >
+            <Typography textAlign={"left"} variant="h4">
               {course.title}
             </Typography>
             <br />
-            <Typography
-              textAlign={"left"}
-              variant="body1"
-              color="text.secondary"
-            >
+            <Typography textAlign={"left"} variant="body1" color="text.secondary">
               {course.description}
             </Typography>
           </CardContent>
@@ -94,7 +97,12 @@ export const CourseData: React.FC<Props> = ({ course }) => {
             </Typography>
           </Box>
         </Box>
-        <CardMedia component="img" sx={{ width: "342px", height: "240px" }} image={course.image_path} alt={course.title} />
+        <CardMedia
+          component="img"
+          sx={{ width: "342px", height: "240px" }}
+          image={course.image_path}
+          alt={course.title}
+        />
       </Card>
       <Grid sx={{ width: "100%" }}>
         <Box sx={{ display: "flex", flexDirection: "column", pt: 4 }}>
