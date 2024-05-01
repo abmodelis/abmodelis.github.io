@@ -15,7 +15,7 @@ import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-import { Add } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function Courses() {
@@ -68,7 +68,7 @@ function Courses() {
                 <Tooltip title={course.title} placement="top">
                   <Typography
                     sx={{
-                      maxHeight: 50,
+                      maxHeight: 100,
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                     }}
@@ -94,7 +94,7 @@ function Courses() {
               </CardContent>
               <CardActions sx={{ justifyContent: "space-between" }}>
                 <Button onClick={handleEdit.bind(null, course.id)} variant="contained">
-                  <Add />
+                  <Edit />
                 </Button>
               </CardActions>
             </Card>
