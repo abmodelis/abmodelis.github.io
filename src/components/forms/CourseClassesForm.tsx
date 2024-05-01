@@ -6,25 +6,32 @@ import {
 import { useForm } from "react-hook-form";
 import { Classes } from "types/Classes";
 import { useEffect } from 'react';
+import { IClassesInput } from "types";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   classes?: Classes;
-  onFormSubmit: (data: Classes) => void;
+  onFormSubmit: (data: IClassesInput) => void;
   onCancel: () => void;
 }
 
 export const CourseClassesForm: React.FC<Props> = ({classes, onFormSubmit, onCancel }) => {
-  const form = useForm<Classes>();
+  const form = useForm<IClassesInput>();
+  const location = useLocation();
+
+  const { unit_Id } = location.state || {};
 
   useEffect(() => {
     if (classes) {
       form.reset({
+        unit_Id: unit_Id,
         title: classes.title,
       });
     }
   }, [classes]);
 
-  const handleSubmit = (data: Classes) => {
+  const handleSubmit = (data: IClassesInput) => {
+    data.unit_Id = unit_Id;
     onFormSubmit(data);
   };
 
