@@ -78,40 +78,42 @@ export const CourseData: React.FC<Props> = ({ course }) => {
 
   return (
     <Grid container rowSpacing={2} sx={{ p: 3 }}>
-      <Card sx={{ display: "flex" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography textAlign={"left"} variant="h4">
-              {course.title}
-            </Typography>
-            <br />
-            <Typography textAlign={"left"} variant="body1" color="text.secondary">
-              {course.description}
-            </Typography>
-          </CardContent>
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
-            <Box sx={{ display: "flex" }}>
-              <Typography px={2} variant="h6">
-                {course.price ? `Bs. ${course.price}` : "Gratis"}
+      <Grid sx={{ width: "100%" }}>
+        <Card sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+            <CardContent sx={{ flex: "1 0 auto" }}>
+              <Typography textAlign={"left"} variant="h4">
+                {course.title}
               </Typography>
-              <Typography px={2} variant="h6" display={"flex"} alignItems={"center"}>
-                {visibilityStatus[course.status]}
+              <br />
+              <Typography textAlign={"left"} variant="body1" color="text.secondary">
+                {course.description}
               </Typography>
-            </Box>
-            <Box sx={{ mr: 1.5 }}>
-              <Button variant="contained" color="error">
-                <ArchiveOutlinedIcon />
-              </Button>
+            </CardContent>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
+              <Box sx={{ display: "flex" }}>
+                <Typography px={2} variant="h6">
+                  {course.price ? `Bs. ${course.price}` : "Gratis"}
+                </Typography>
+                <Typography px={2} variant="h6" display={"flex"} alignItems={"center"}>
+                  {visibilityStatus[course.status]}
+                </Typography>
+              </Box>
+              <Box sx={{ mr: 1.5 }}>
+                <Button variant="contained" color="error">
+                  <ArchiveOutlinedIcon />
+                </Button>
+              </Box>
             </Box>
           </Box>
-        </Box>
-        <CardMedia
-          component="img"
-          sx={{ width: "342px" }}
-          image={course.image_path}
-          alt={course.title}
-        />
-      </Card>
+          <CardMedia
+            component="img"
+            sx={{ width: "342px" }}
+            image={course.image_path}
+            alt={course.title}
+          />
+        </Card>
+      </Grid>
       <Grid sx={{ width: "100%" }}>
         <Box sx={{ display: "flex", flexDirection: "column", pt: 4 }}>
           {sections.map((section) => section)}
