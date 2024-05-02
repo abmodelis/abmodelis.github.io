@@ -16,4 +16,8 @@ export class SectionService {
     const { data } = await ApiService.put<Section>(`/units/${id}`, sectionInput);
     return data;
   }
+
+  static async deleteSection(id: number) {
+    return ApiService.delete(`/units/${id}`);
+  }
 }
