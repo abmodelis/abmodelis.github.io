@@ -100,7 +100,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
                 </Typography>
               </Box>
               <Box sx={{ mr: 1.5 }}>
-                <Button variant="contained">
+                <Button>
                   <ArchivedCourse />
                 </Button>
               </Box>
