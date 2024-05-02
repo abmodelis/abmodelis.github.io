@@ -1,6 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-//import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -26,9 +25,9 @@ export const CourseData: React.FC<Props> = ({ course }) => {
     setSections(() =>
       course.units.map((section, index) => (
         <Box key={section.id} sx={{ mb: 2 }}>
-          <SectionAccordion key={section.id} sectionNumber={index + 1} title={section.title} />
+          <SectionAccordion key={section.id} sectionNumber={index + 1} section={section} />
         </Box>
-      ))
+      )),
     );
   }, [course]);
 
@@ -42,7 +41,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
     setSections((prevSections) => [
       ...prevSections,
       <Box key={newSection.id} sx={{ mb: 2 }}>
-        <SectionAccordion key={newSection.id} sectionNumber={prevSections.length + 1} title={newSection.title} />
+        <SectionAccordion key={newSection.id} sectionNumber={prevSections.length + 1} section={newSection} />
       </Box>,
     ]);
     setShowSectionForm(false); // Oculta el formulario después de agregar la sección
@@ -101,16 +100,13 @@ export const CourseData: React.FC<Props> = ({ course }) => {
                 </Typography>
               </Box>
               <Box sx={{ mr: 1.5 }}>
-                <ArchivedCourse />
+                <Button variant="contained">
+                  <ArchivedCourse />
+                </Button>
               </Box>
             </Box>
           </Box>
-          <CardMedia
-            component="img"
-            sx={{ width: "342px" }}
-            image={course.image_path}
-            alt={course.title}
-          />
+          <CardMedia component="img" sx={{ width: "342px" }} image={course.image_path} alt={course.title} />
         </Card>
       </Grid>
       <Grid sx={{ width: "100%" }}>
