@@ -1,12 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import SectionAccordion from "components/CourseContent/sections";
 import { CourseSectionForm } from "components/forms/CourseSectionForm";
+import ArchivedCourse from "components/modals/ArchivedCourse";
 import * as React from "react";
 import { useState } from "react";
 import { SectionService } from "services";
@@ -100,8 +100,8 @@ export const CourseData: React.FC<Props> = ({ course }) => {
                 </Typography>
               </Box>
               <Box sx={{ mr: 1.5 }}>
-                <Button variant="contained" color="error">
-                  <ArchiveOutlinedIcon />
+                <Button variant="contained">
+                  <ArchivedCourse />
                 </Button>
               </Box>
             </Box>
