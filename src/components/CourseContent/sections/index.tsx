@@ -8,9 +8,11 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { CourseClassesForm } from "components/forms/CourseClassesForm";
 import { useEffect, useState } from "react";
-import { IContentInput, Section } from "types";
+import { IContentInput, Section, ISectionInput } from "types";
 import ClassesAccordion from "../classes";
 import { ContentService } from "services";
+
+import { CourseSectionForm } from "components/forms/CourseSectionForm";
 
 type SectionAccordionProps = {
   sectionNumber: number;
@@ -26,7 +28,7 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
 
   useEffect(() => {
     if (section) {
-      setClasses(section.contents.map((content) => <ClassesAccordion key={content.id} content={content} />));
+      //setClasses(section.contents.map((content) => <ClassesAccordion key={content.id} content={content} />));
     }
   }, [section]);
 
@@ -35,16 +37,16 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
   };
 
   const handleFormSubmit = async (classData: IContentInput) => {
-    classData.unit_id = section.id;
-    // Aquí agregas la nueva sección con los datos del formulario
-    const newContent = await ContentService.createContent(classData);
-    setClasses((prevSections) => [
-      ...prevSections,
-      <Box key={prevSections.length} sx={{ mb: 2 }}>
-        <ClassesAccordion key={newContent.id} content={newContent} />
-      </Box>,
-    ]);
-    setShowClassForm(false); // Oculta el formulario después de agregar la sección
+    // classData.unit_id = section.id;
+    // // Aquí agregas la nueva sección con los datos del formulario
+    // const newContent = await ContentService.createContent(classData);
+    // setClasses((prevSections) => [
+    //   ...prevSections,
+    //   <Box key={prevSections.length} sx={{ mb: 2 }}>
+    //     <ClassesAccordion key={newContent.id} content={newContent} />
+    //   </Box>,
+    // ]);
+    // setShowClassForm(false); // Oculta el formulario después de agregar la sección
   };
 
   const handleCancel = () => {
@@ -53,6 +55,18 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
 
   const handleChange = () => {
     setExpanded(!expanded);
+  };
+
+  const [showEditSectionForm, setShowEditSectionForm] = useState(false);
+  const handleEditsectionClick = () => {
+    setShowEditSectionForm(true);
+  };
+  const handleEditFormSubmit = async (sectionData: ISectionInput) => {
+    //Logica para guardar los datos(Tarea #35)
+    setShowEditSectionForm(false);
+  };
+  const handleEditCancel = () => {
+    setShowEditSectionForm(false);
   };
 
   const modalStyle = {
@@ -109,7 +123,7 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
             <Box sx={{ display: "inline-flex", opacity: isHovering ? 1 : 0, transition: "opacity 0.3s" }}>
               <IconButton
                 onClick={() => {
-                  /* Coloca aquí la lógica para editar */
+                  handleEditsectionClick();
                 }}
                 sx={{ color: expanded ? "#FFFFFF" : "inherit", ml: 1 }}
               >
@@ -126,6 +140,14 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
             </Box>
           </Typography>
         </AccordionSummary>
+        <Modal open={showEditSectionForm} onClose={handleEditCancel}>
+          <Box sx={modalStyle}>
+            <Typography id="modal-title" variant="h6" component="h2">
+              Título de la sección
+            </Typography>
+            <CourseSectionForm section={section} onFormSubmit={handleEditFormSubmit} onCancel={handleEditCancel} />
+          </Box>
+        </Modal>
         <AccordionDetails>
           <Grid sx={{ width: "100%" }}>
             <Box sx={{ display: "felx", flexDirection: "column", pt: 1 }}>
