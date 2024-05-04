@@ -1,12 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import SectionAccordion from "components/CourseContent/sections";
 import { CourseSectionForm } from "components/forms/CourseSectionForm";
+import ArchivedCourse from "components/modals/ArchivedCourse";
 import * as React from "react";
 import { useState } from "react";
 import { SectionService } from "services";
@@ -25,9 +25,9 @@ export const CourseData: React.FC<Props> = ({ course }) => {
     setSections(() =>
       course.units.map((section, index) => (
         <Box key={section.id} sx={{ mb: 2 }}>
-          <SectionAccordion key={section.id} sectionNumber={index + 1} title={section.title} />
+          <SectionAccordion key={section.id} sectionNumber={index + 1} section={section} />
         </Box>
-      ))
+      )),
     );
   }, [course]);
 
@@ -41,7 +41,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
     setSections((prevSections) => [
       ...prevSections,
       <Box key={newSection.id} sx={{ mb: 2 }}>
-        <SectionAccordion key={newSection.id} sectionNumber={prevSections.length + 1} title={newSection.title} />
+        <SectionAccordion key={newSection.id} sectionNumber={prevSections.length + 1} section={newSection} />
       </Box>,
     ]);
     setShowSectionForm(false); // Oculta el formulario después de agregar la sección
@@ -79,40 +79,35 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   return (
     <Grid container rowSpacing={2} sx={{ p: 3 }}>
       <Grid sx={{ width: "100%" }}>
-      <Card sx={{ display: "flex" }}>
-        <Box sx={{ display: "flex", flexDirection: "column", width: "100%"}}>
-          <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography textAlign={"left"} variant="h4">
-              {course.title}
-            </Typography>
-            <br />
-            <Typography textAlign={"left"} variant="body1" color="text.secondary">
-              {course.description}
-            </Typography>
-          </CardContent>
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
-            <Box sx={{ display: "flex" }}>
-              <Typography px={2} variant="h6">
-                {course.price ? `Bs. ${course.price}` : "Gratis"}
+        <Card sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+            <CardContent sx={{ flex: "1 0 auto" }}>
+              <Typography textAlign={"left"} variant="h4">
+                {course.title}
               </Typography>
-              <Typography px={2} variant="h6" display={"flex"} alignItems={"center"}>
-                {visibilityStatus[course.status]}
+              <br />
+              <Typography textAlign={"left"} variant="body1" color="text.secondary">
+                {course.description}
               </Typography>
-            </Box>
-            <Box sx={{ mr: 1.5 }}>
-              <Button variant="contained" color="error">
-                <ArchiveOutlinedIcon />
-              </Button>
+            </CardContent>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
+              <Box sx={{ display: "flex" }}>
+                <Typography px={2} variant="h6">
+                  {course.price ? `Bs. ${course.price}` : "Gratis"}
+                </Typography>
+                <Typography px={2} variant="h6" display={"flex"} alignItems={"center"}>
+                  {visibilityStatus[course.status]}
+                </Typography>
+              </Box>
+              <Box sx={{ mr: 1.5 }}>
+                <Button>
+                  <ArchivedCourse />
+                </Button>
+              </Box>
             </Box>
           </Box>
-        </Box>
-        <CardMedia
-          component="img"
-          sx={{ width: "342px" }}
-          image={course.image_path}
-          alt={course.title}
-        />
-      </Card>
+          <CardMedia component="img" sx={{ width: "342px" }} image={course.image_path} alt={course.title} />
+        </Card>
       </Grid>
       <Grid sx={{ width: "100%" }}>
         <Box sx={{ display: "flex", flexDirection: "column", pt: 4 }}>
