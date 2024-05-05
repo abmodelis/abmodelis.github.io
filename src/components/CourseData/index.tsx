@@ -1,3 +1,6 @@
+import { TransitionProps } from "@mui/material/transitions";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
+
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
@@ -12,6 +15,15 @@ import { useState } from "react";
 import { SectionService } from "services";
 import { Course, ISectionInput } from "types";
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 type Props = {
   course: Course;
 };
@@ -20,6 +32,8 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   const [sections, setSections] = useState<JSX.Element[]>([]);
 
   const [showSectionForm, setShowSectionForm] = useState(false);
+
+  const [openDialog, setOpenDialog] = useState(false);
 
   React.useEffect(() => {
     setSections(() =>
@@ -48,6 +62,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   };
 
   const handleCancel = () => {
+    setOpenDialog(false);
     setShowSectionForm(false); // Oculta el formulario si se cancela
   };
 
@@ -124,11 +139,33 @@ export const CourseData: React.FC<Props> = ({ course }) => {
               <Typography id="modal-title" variant="h6" component="h2">
                 Título de la sección
               </Typography>
-              <CourseSectionForm onFormSubmit={handleFormSubmit} onCancel={handleCancel} />
+              <CourseSectionForm onFormSubmit={handleFormSubmit} onCancel={() => setOpenDialog(true)} />
             </Box>
           </Modal>
         </Box>
       </Grid>
+
+      <Dialog
+        open={openDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => {}}
+        aria-describedby="alert-dialog-slide-description"
+        style={{ zIndex: 2000 }}
+      >
+        <DialogTitle>{"¿Estás seguro de que deseas cancelar la acción?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Esta acción anulará todos los datos que hayas ingresado en el formulario.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
+          <Button onClick={handleCancel} variant="contained" color="error">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

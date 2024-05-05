@@ -13,11 +13,23 @@ import ClassesAccordion from "../classes";
 import { ContentService } from "services";
 
 import { CourseSectionForm } from "components/forms/CourseSectionForm";
+import { TransitionProps } from "@mui/material/transitions";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
+import React from "react";
 
 type SectionAccordionProps = {
   sectionNumber: number;
   section: Section;
 };
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, section }) => {
   const [expanded, setExpanded] = useState(false);
@@ -58,14 +70,16 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
   };
 
   const [showEditSectionForm, setShowEditSectionForm] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const handleEditsectionClick = () => {
     setShowEditSectionForm(true);
   };
   const handleEditFormSubmit = async (sectionData: ISectionInput) => {
-    //Logica para guardar los datos(Tarea #35)
+    //Logica para guardar los datos cambiados(Tarea #35)
     setShowEditSectionForm(false);
   };
   const handleEditCancel = () => {
+    setOpenDialog(false);
     setShowEditSectionForm(false);
   };
 
@@ -140,17 +154,44 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
             </Box>
           </Typography>
         </AccordionSummary>
+
         <Modal open={showEditSectionForm} onClose={handleEditCancel}>
           <Box sx={modalStyle}>
             <Typography id="modal-title" variant="h6" component="h2">
               Título de la sección
             </Typography>
-            <CourseSectionForm section={section} onFormSubmit={handleEditFormSubmit} onCancel={handleEditCancel} />
+            <CourseSectionForm
+              section={section}
+              onFormSubmit={handleEditFormSubmit}
+              onCancel={() => setOpenDialog(true)}
+            />
           </Box>
         </Modal>
+        <Dialog
+          open={openDialog}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={() => {}}
+          aria-describedby="alert-dialog-slide-description"
+          style={{ zIndex: 2000 }}
+        >
+          <DialogTitle>{"¿Estás seguro de que deseas cancelar la acción?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Esta acción anulará todos los datos que hayas ingresado en el formulario.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
+            <Button onClick={handleEditCancel} variant="contained" color="error">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <AccordionDetails>
           <Grid sx={{ width: "100%" }}>
-            <Box sx={{ display: "felx", flexDirection: "column", pt: 1 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", pt: 1 }}>
               {classes.map((classes) => classes)}
               <Grid container justifyContent="flex-start" sx={{ pt: 2 }}>
                 <Grid item>
