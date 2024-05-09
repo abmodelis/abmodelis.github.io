@@ -10,7 +10,7 @@ import { CourseClassesForm } from "components/forms/CourseClassesForm";
 import { useEffect, useState } from "react";
 import { IContentInput, Section, ISectionInput } from "types";
 import ClassesAccordion from "../classes";
-import { ContentService } from "services";
+import { ContentService, SectionService } from "services";
 
 import { CourseSectionForm } from "components/forms/CourseSectionForm";
 import { TransitionProps } from "@mui/material/transitions";
@@ -40,7 +40,7 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
 
   useEffect(() => {
     if (section) {
-      setClasses(section.contents.map((content) => <ClassesAccordion key={content.id} content={content} />));
+      // setClasses(section.contents.map((content) => <ClassesAccordion key={content.id} content={content} />));
     }
   }, [section]);
 
@@ -49,15 +49,15 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
   };
 
   const handleFormSubmit = async (classData: IContentInput) => {
-    classData.unit_id = section.id;
-    // Aquí agregas la nueva sección con los datos del formulario
-    const newContent = await ContentService.createContent(classData);
-    setClasses((prevSections) => [
-      ...prevSections,
-      <Box key={prevSections.length} sx={{ mb: 2 }}>
-        <ClassesAccordion key={newContent.id} content={newContent} />
-      </Box>,
-    ]);
+    // classData.unit_id = section.id;
+    // // Aquí agregas la nueva sección con los datos del formulario
+    // const newContent = await ContentService.createContent(classData);
+    // setClasses((prevSections) => [
+    //   ...prevSections,
+    //   <Box key={prevSections.length} sx={{ mb: 2 }}>
+    //     <ClassesAccordion key={newContent.id} content={newContent} />
+    //   </Box>,
+    // ]);
     setShowClassForm(false); // Oculta el formulario después de agregar la sección
   };
 
@@ -76,7 +76,10 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
   };
   const handleEditFormSubmit = async (sectionData: ISectionInput) => {
     //Logica para guardar los datos cambiados(Tarea #35)
-    setShowEditSectionForm(false);
+    SectionService.updateSection(section.id, sectionData).then(() => {
+      setShowEditSectionForm(false);
+      window.location.reload();
+    });
   };
   const handleEditCancel = () => {
     setOpenDialog(false);
