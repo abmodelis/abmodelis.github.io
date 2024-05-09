@@ -1,4 +1,5 @@
 import { Link } from "@mui/material";
+import Footer from "components/header/Footer";
 
 function Home() {
   return (
@@ -10,6 +11,7 @@ function Home() {
       <h2>
         <Link href="/#/students">Students</Link>
       </h2>
+      <Footer />
     </>
   );
 }
