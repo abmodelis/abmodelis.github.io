@@ -62,7 +62,7 @@ function Courses() {
       >
         {courses.map((course) => (
           <Grid item xs={2} sm={4} md={4} lg={3} key={course.id}>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345}}>
               <CardMedia sx={{ height: 200 }} image={course.image_path} title={course.title} />
               <CardContent>
                 <Tooltip title={course.title} placement="top">
