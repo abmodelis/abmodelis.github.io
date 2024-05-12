@@ -16,7 +16,7 @@ const darkTheme = createTheme({
 const Footer: React.FC = () => {
   return (
     <ThemeProvider theme={darkTheme}>
-      <AppBar position="fixed" color="primary" enableColorOnDark style={{ top: "auto", bottom: 0, height: "150px" }}>
+      <AppBar position="static" color="primary" enableColorOnDark style={{ top: "auto", bottom: 0, height: "145px" }}>
         <Container maxWidth="xl">
           <Toolbar sx={{ justifyContent: "space-between" }}>
             <LogoFooter />
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
               <Typography
                 variant="body1"
                 textAlign="center"
-                sx={{ display: "inline-block", marginTop: "20px", marginLeft: "100px" }}
+                sx={{ display: "inline-block", marginTop: "10px", marginLeft: "100px" }}
               >
                 Aviso legal
               </Typography>
