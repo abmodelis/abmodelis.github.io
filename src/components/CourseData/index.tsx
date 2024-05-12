@@ -36,8 +36,19 @@ export const CourseData: React.FC<Props> = ({ course }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   React.useEffect(() => {
+    const sortedSections = [...course.units].sort((a, b) => {
+      // Convertimos las fechas a objetos Date para su comparación
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+
+      // Comparamos las fechas
+      if (dateA < dateB) return -1;
+      if (dateA > dateB) return 1;
+      return 0;
+    });
+
     setSections(() =>
-      course.units.map((section, index) => (
+      sortedSections.map((section, index) => (
         <Box key={section.id} sx={{ mb: 2 }}>
           <SectionAccordion key={section.id} sectionNumber={index + 1} section={section} />
         </Box>
