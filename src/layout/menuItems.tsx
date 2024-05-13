@@ -6,7 +6,9 @@ export const menuItems: IMenuItem[] = [
   {
     title: "Todos",
     icon: <AppsIcon />,
-    onClick: () => {},
+    onClick: () => {
+      window.location.href = "/#/teachers/courses";
+    },
   },
   {
     title: "Archivados",
