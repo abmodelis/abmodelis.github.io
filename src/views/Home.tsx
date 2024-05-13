@@ -5,7 +5,7 @@ import { LoginNavBarInit } from "components/header/no_logeado/LoginNavBarMain";
 function Home() {
   return (
     <>
-      <Grid sx={{ width: "100%", overflowY: "auto", maxHeight: "565px" }}>
+      <Grid sx={{ width: "100%", overflowY: "auto" }}>
         <LoginNavBarInit />
         <PricingPlan />
         <Grid item sx={{ mt: 4 }}>

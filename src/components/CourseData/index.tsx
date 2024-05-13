@@ -126,9 +126,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
                 </Typography>
               </Box>
               <Box sx={{ mr: 1.5 }}>
-                <Button>
-                  <ArchivedCourse />
-                </Button>
+                <ArchivedCourse />
               </Box>
             </Box>
           </Box>

@@ -62,12 +62,13 @@ function Courses() {
       >
         {courses.map((course) => (
           <Grid item xs={2} sm={4} md={4} lg={3} key={course.id}>
-            <Card sx={{ maxWidth: 345}}>
-              <CardMedia sx={{ height: 200 }} image={course.image_path} title={course.title} />
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia sx={{ minHeight: 200 }} image={course.image_path} title={course.title} />
               <CardContent>
                 <Tooltip title={course.title} placement="top">
                   <Typography
                     sx={{
+                      minHeight: 99.99,
                       maxHeight: 100,
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -83,6 +84,7 @@ function Courses() {
                   variant="body2"
                   color="text.secondary"
                   sx={{
+                    minHeight: 99.99,
                     maxHeight: 100,
                     overflowX: "hidden",
                     overflowWrap: "break-word",
