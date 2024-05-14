@@ -4,6 +4,8 @@ import React from "react";
 import { LogoNavBar } from "icons";
 import { SearchBar } from "../SearchBar";
 
+import { ProfessorRegister } from "components/modals/ProfessorRegister";
+
 export const LoginNavBarInit: React.FC = () => {
   return (
     <AppBar position="sticky">
@@ -16,9 +18,10 @@ export const LoginNavBarInit: React.FC = () => {
             <SearchBar />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
-            <Button sx={{ textTransform: "none" }}>
+            {/* <Button sx={{ textTransform: "none" }}>
               <Typography sx={{ color: "white", textDecoration: "underline" }}>Enseña en UFC</Typography>
-            </Button>
+            </Button> */}
+            <ProfessorRegister />
           </Box>
           <Box sx={{ display: "flex", flexGrow: 0, gap: 5 }}>
             <Box>
