@@ -12,11 +12,15 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import React from "react";
 
-import { Course, ICourseInput, Status } from "types";
+import {
+  Course,
+  ICourseInput,
+  //  Status
+} from "types";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -25,7 +29,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 
 type Props = {
   course?: Course;
-  onFormSubmit: (data: ICourseInput) => void;
+  onFormSubmit: () => void;
   onCancel: () => void;
 };
 
@@ -40,11 +44,11 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ course, onFormSubmit, o
     event.preventDefault();
   };
 
-  useEffect(() => {
-    if (!course) return;
-    form.reset({});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [course]);
+  // useEffect(() => {
+  //   if (!course) return;
+  //   form.reset({});
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [course]);
 
   const handleSubmit = () => {};
 
