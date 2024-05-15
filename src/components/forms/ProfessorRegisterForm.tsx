@@ -26,6 +26,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { BirthDataPicker } from "./BirthDataPicker";
 
 type Props = {
   course?: Course;
@@ -109,7 +110,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ course, onFormSubmit, o
         </Grid>
         <Grid item xs={6}>
           <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password">Confirmar contraseña</InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
@@ -125,25 +126,14 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ course, onFormSubmit, o
                   </IconButton>
                 </InputAdornment>
               }
-              label="Confimar la contraseña"
+              label="Confimar contraseña"
             />
           </FormControl>
         </Grid>
       </Grid>
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
-          <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} error={!!form.formState.errors.price}>
-            <InputLabel htmlFor="outlined-adornment-amount">Precio</InputLabel>
-            <OutlinedInput
-              {...form.register("price", { required: "Este campo es requerido", valueAsNumber: true })}
-              id="outlined-adornment-amount"
-              label="Fecha de nacimiento"
-              defaultValue={0}
-              type="number"
-              inputProps={{ min: 500, step: 0.01, max: 1500.0 }}
-            />
-            {form.formState.errors.price && <FormHelperText>{form.formState.errors.price.message}</FormHelperText>}
-          </FormControl>
+          <BirthDataPicker title="Fecha de Nacimiento"></BirthDataPicker>
         </Grid>
         <Grid item xs={6}>
           <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }}>
