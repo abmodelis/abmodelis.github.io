@@ -3,7 +3,6 @@ import {
   Button,
   Divider,
   FormControl,
-  FormHelperText,
   Grid,
   InputAdornment,
   InputLabel,
@@ -12,15 +11,10 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-//import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import React from "react";
+import { useForm } from "react-hook-form";
 
-import {
-  Course,
-  ICourseInput,
-  //  Status
-} from "types";
+import { Course, ICourseInput } from "types";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -34,7 +28,7 @@ type Props = {
   onCancel: () => void;
 };
 
-export const ProfessorRegisterForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) => {
+export const ProfessorRegisterForm: React.FC<Props> = ({ onCancel }) => {
   const form = useForm<ICourseInput>();
 
   const [showPassword, setShowPassword] = React.useState(false);
