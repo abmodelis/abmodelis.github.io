@@ -2,25 +2,24 @@ import {
   Box,
   Button,
   Divider,
+  //FilledTextFieldProps,
   FormControl,
-  FormHelperText,
   Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
+  //OutlinedTextFieldProps,
   Select,
+  //StandardTextFieldProps,
   TextField,
+  //TextFieldVariants,
 } from "@mui/material";
-//import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { User } from "types/User";
+import { IUserInput } from "types/IUserInput";
+import { specializationAreas } from "types/User";
 import React from "react";
-
-import {
-  Course,
-  ICourseInput,
-  //  Status
-} from "types";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -29,104 +28,163 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { BirthDataPicker } from "./BirthDataPicker";
 
 type Props = {
-  course?: Course;
-  onFormSubmit: () => void;
+  user?: User;
+  onFormSubmit: (data: IUserInput) => void;
   onCancel: () => void;
 };
 
-export const ProfessorRegisterForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) => {
-  const form = useForm<ICourseInput>();
-
+export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onCancel }) => {
+  const form = useForm<IUserInput>();
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
-  // useEffect(() => {
-  //   if (!course) return;
-  //   form.reset({});
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [course]);
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        password: user.password,
+        birthDate: user.birthDate,
+        specializationAreaId: user.specializationArea.id,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (data: IUserInput) => {
+    onFormSubmit(data);
+  };
 
   const [area, setArea] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setArea(event.target.value as string);
+    const selectedTitle = event.target.value;
+    const selectedArea = specializationAreas.find(area => area.title === selectedTitle);
+
+    if (selectedArea) {
+      console.log('Selected ID:', selectedArea.id);
+      setArea(selectedTitle);
+    }
   };
+
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
           <TextField
+            {...form.register("name", {
+              required: "Este campo es requerido",
+              minLength: { value: 3, message: "Minimo 3 caracteres" },
+              maxLength: { value: 30, message: "Maximo 30 caracteres" },
+              pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
+            })}
             label="Nombre"
             fullWidth
             sx={{ mt: 1.5, mb: 1.5 }}
-            inputProps={{ maxLength: 130 }} // Limitar la longitud máxima a 130 caracteres
+            error={!!form.formState.errors.name}
+            helperText={form.formState.errors.name?.message}
           />
         </Grid>
         <Grid item xs={6}>
           <TextField
+            {...form.register("lastname", {
+              required: "Este campo es requerido",
+              minLength: { value: 4, message: "Minimo 4 caracteres" },
+              maxLength: { value: 40, message: "Maximo 40 caracteres" },
+              pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
+            })}
             label="Apellidos"
             fullWidth
             sx={{ mt: 1.5, mb: 1.5 }}
-            inputProps={{ maxLength: 130 }} // Limitar la longitud máxima a 130 caracteres
+            error={!!form.formState.errors.lastname}
+            helperText={form.formState.errors.lastname?.message}
           />
         </Grid>
       </Grid>
       <TextField
+        {...form.register("email", {
+          required: "Este campo es requerido",
+          pattern: {
+            value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/,
+            message: "Formato de correo electrónico inválido",
+          },
+        })}
         label="Correo electrónico"
         fullWidth
         sx={{ mt: 2, mb: 1.5 }}
+        error={!!form.formState.errors.email}
+        helperText={form.formState.errors.email?.message}
         inputProps={{ maxLength: 60 }} // Limitar la longitud máxima a 60 caracteres
       />
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
           <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
-            <OutlinedInput
+            <TextField
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
+              {...form.register("password", {
+                required: "Este campo es requerido",
+                minLength: { value: 8, message: "Mínimo 8 caracteres" },
+                maxLength: { value: 32, message: "Máximo 32 caracteres" },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+[\w\W]*$/,
+                  message: "Debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial",
+                },
+              })}
+              error={!!form.formState.errors.password}
+              helperText={form.formState.errors.password?.message} // Aquí está el helperText
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               label="Contraseña"
             />
           </FormControl>
         </Grid>
         <Grid item xs={6}>
           <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Confirmar contraseña</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
+            <InputLabel htmlFor="outlined-adornment-confirm-password">Confirmar contraseña</InputLabel>
+            <TextField
+              id="outlined-adornment-confirm-password"
               type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Confimar contraseña"
+              {...form.register("confirmPassword", {
+                required: "Este campo es requerido",
+                validate: (value) =>
+                  value === form.watch("password") || "Las contraseñas no coinciden",
+              })}
+              error={!!form.formState.errors.confirmPassword}
+              helperText={form.formState.errors.confirmPassword?.message} // Aquí está el helperText
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              label="Confirmar contraseña"
             />
           </FormControl>
         </Grid>
@@ -145,12 +203,11 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ course, onFormSubmit, o
               label="Área de especialización"
               onChange={handleChange}
             >
-              <MenuItem value={"Desarrollo web"}>Desarrollo web</MenuItem>
-              <MenuItem value={"Ciberseguridad"}>Ciberseguridad</MenuItem>
-              <MenuItem value={"Inteligencia Artificial"}>Inteligencia Artificial</MenuItem>
-              <MenuItem value={"Desarrollo mobile"}>Desarrollo mobile</MenuItem>
-              <MenuItem value={"Inglés"}>Inglés</MenuItem>
-              <MenuItem value={"Redes y telecomunicaciones"}>Redes y telecomunicaciones</MenuItem>
+              {specializationAreas.map((area) => (
+                <MenuItem key={area.id} value={area.title}>
+                  {area.title}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
