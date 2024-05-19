@@ -1,5 +1,5 @@
 import * as React from "react";
-import { /*dayjs,*/ Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,6 +20,8 @@ export const BirthDataPicker: React.FC<Props> = ({ title }) => {
           value={value}
           onChange={(newValue) => setValue(newValue)}
           format="DD/MM/YYYY"
+          minDate={dayjs('1950-01-01')}
+          maxDate={dayjs('2000-12-31')}
           sx={{ width: "100%" }}
         />
       </DemoContainer>
