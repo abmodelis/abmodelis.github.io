@@ -14,8 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import React from "react";
 import { ProfessorRegisterForm } from "components/forms/ProfessorRegisterForm";
+import React from "react";
 
 import { LogoFooter } from "icons";
 
