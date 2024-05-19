@@ -40,14 +40,7 @@ export const ProfessorRegister: React.FC = () => {
 
   return (
     <div>
-      {/* <Button
-        onClick={handleOpen}
-        variant="contained"
-        sx={{ bgcolor: "#FFFFFF", color: "#110404", "&:hover": { bgcolor: "#E6E6E6" } }}
-      >
-        <AddIcon />
-      </Button> */}
-      <Button onClick={handleOpen} variant="contained" sx={{ textTransform: "none" }}>
+      <Button onClick={handleOpen} variant="text" sx={{ textTransform: "none" }}>
         <Typography sx={{ color: "white", textDecoration: "underline" }}>Enseña en UFC</Typography>
       </Button>
       <Modal
@@ -62,15 +55,10 @@ export const ProfessorRegister: React.FC = () => {
             <Grid item>
               <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h4"
-                    component="h4"
-                    sx={{ marginLeft: "51px", marginRight: "30px" }}
-                  >
+                  <Typography id="modal-modal-title" variant="h4">
                     Enseña en UnFlip Code
                   </Typography>
-                  <Box sx={{ marginLeft: "30px", marginRight: "51px" }}>
+                  <Box>
                     <LogoFooter />
                   </Box>
                 </Box>
@@ -86,8 +74,8 @@ export const ProfessorRegister: React.FC = () => {
                   <DialogTitle>{"¿Estás seguro de que deseas cancelar la acción?"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Esta acción anulará todos los datos que hayas ingresado en el formulario de crear los datos para
-                      un nuevo curso.
+                      Esta acción anulará todos los datos que hayas ingresado en el formulario para formar parte del
+                      equipo docente de UnFlip Code.
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
