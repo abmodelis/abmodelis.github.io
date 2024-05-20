@@ -1,5 +1,5 @@
-import { TransitionProps } from "@mui/material/transitions";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
@@ -126,7 +126,7 @@ export const CourseData: React.FC<Props> = ({ course }) => {
                 </Typography>
               </Box>
               <Box sx={{ mr: 1.5 }}>
-                <ArchivedCourse />
+                <ArchivedCourse course={course} />
               </Box>
             </Box>
           </Box>
