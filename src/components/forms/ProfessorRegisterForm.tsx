@@ -9,7 +9,6 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { User } from "types/User";
@@ -33,7 +32,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
   const form = useForm<IUserInput>();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -53,20 +52,16 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
     onFormSubmit(data);
   };*/
 
-  const handleSubmit = async (data: IUserInput) => {
-    // Iniciar el estado de carga
-    setLoading(true);
+  const handleSubmit = (data: IUserInput) => {
+    if (isSubmitting) return; // Prevenir múltiples envíos si ya se está procesando uno
+    setIsSubmitting(true); // Deshabilitar el botón de envío
 
-    try {
-      // Lógica para procesar los datos del formulario
-      await onFormSubmit(data);
-    } catch (error) {
-      // Manejar cualquier error que pueda ocurrir durante el envío
-      console.error("Error al enviar el formulario", error);
-    }
+    onFormSubmit(data);
 
-    // Detener el estado de carga después de la operación
-    setLoading(false);
+    // Establecer un retraso antes de restablecer el estado isSubmitting
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 5000); // Esperar 5 segundos antes de permitir otro envío
   };
 
   const [area, setArea] = React.useState("");
@@ -218,15 +213,9 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
           <Button onClick={onCancel}>Cancelar</Button>
         </Grid>
         <Grid item>
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            color="success"
-            loading={loading}
-            loadingIndicator="Cargando…"
-          >
-            <span>Registrarme</span>
-          </LoadingButton>
+          <Button type="submit" variant="contained" color="success" disabled={isSubmitting}>
+            {isSubmitting ? "Registrando..." : "Registrarme"}
+          </Button>
         </Grid>
       </Grid>
     </form>

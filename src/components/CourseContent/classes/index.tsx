@@ -11,10 +11,11 @@ import Player from "react-player";
 import { Content } from "types";
 
 type ClassAccordionProps = {
+  classNumber: number;
   content: Content;
 };
 
-const ClassesAccordion: React.FC<ClassAccordionProps> = ({ content }: ClassAccordionProps) => {
+const ClassesAccordion: React.FC<ClassAccordionProps> = ({ classNumber, content }: ClassAccordionProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = () => {
@@ -52,7 +53,7 @@ const ClassesAccordion: React.FC<ClassAccordionProps> = ({ content }: ClassAccor
           onMouseOut={() => setIsHovering(false)}
         >
           <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
-            <StyledMuiMarkdown>{content.html_text.split("\n")[0]}</StyledMuiMarkdown>
+            Clase {classNumber}: {content.title}
             <Box sx={{ display: "inline-flex", opacity: isHovering ? 1 : 0, transition: "opacity 0.3s" }}>
               <IconButton
                 onClick={() => {

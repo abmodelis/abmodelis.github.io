@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { DragDropFileUpload } from "components/buttons/DragDropFileUpload";
 import { Course, ICourseInput, Status } from "types";
 import { MediaServices } from "services";
@@ -24,10 +23,12 @@ type Props = {
   onCancel: () => void;
 };
 
-export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel}) => {
+export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) => {
   const form = useForm<ICourseInput>();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     if (!course) return;
@@ -46,11 +47,26 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel}) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course]);
 
-  const handleSubmit = (data: ICourseInput) => {
+  useEffect(() => {
+    if (isSubmitted) {
+      // Aquí puedes realizar acciones después de que el formulario se haya enviado
+      // Por ejemplo, restablecer el estado isSubmitting
+      setIsSubmitting(false);
+      // Restablecer el estado isSubmitted para permitir futuros envíos
+      setIsSubmitted(false);
+    }
+  }, [isSubmitted]); // Este efecto se ejecutará cada vez que isSubmitted cambie
+
+  const handleSubmit = async (data: ICourseInput) => {
+    if (isSubmitting) return; // Prevenir múltiples envíos si ya se está procesando uno
+    setIsSubmitting(true); // Deshabilitar el botón de envío
+
     if (!imageFile) {
       form.setError("image", { message: "Este campo es requerido" });
+      setIsSubmitting(false); // Habilitar el botón si hay un error
       return;
     }
+
     setImageError(null);
     const fileName = course?.image_path.split("/").pop();
     if (fileName) {
@@ -58,6 +74,10 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel}) =
     }
     data.image = fileName === imageFile?.name ? null : imageFile;
     onFormSubmit(data);
+    // Establecer un retraso antes de restablecer el estado isSubmitting
+    setTimeout(() => {
+      setIsSubmitting(true); // Establecer isSubmitted a true para indicar que el formulario se ha enviado
+    }, 5000); // Esperar 5 segundos antes de permitir otro envío
   };
 
   return (
@@ -117,7 +137,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel}) =
               label="Precio"
               defaultValue={0}
               type="number"
-              inputProps={{ min: 500, step: 0.01, max: 1500.00 }}
+              inputProps={{ min: 500, step: 0.01, max: 1500.0 }}
             />
             {form.formState.errors.price && <FormHelperText>{form.formState.errors.price.message}</FormHelperText>}
           </FormControl>
@@ -134,13 +154,11 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel}) =
       </Grid>
       <Grid container spacing={2} justifyContent="flex-end">
         <Grid item>
-          <Button onClick={onCancel}>
-            Cancelar
-          </Button>
+          <Button onClick={onCancel}>Cancelar</Button>
         </Grid>
-        <Grid item >
-          <Button type="submit" variant="contained" color="success">
-            Guardar
+        <Grid item>
+          <Button type="submit" variant="contained" color="success" disabled={isSubmitting}>
+            {isSubmitting ? "Guardando..." : "Guardar"}
           </Button>
         </Grid>
       </Grid>

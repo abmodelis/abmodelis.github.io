@@ -17,6 +17,7 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
   const [showPreview, setShowPreview] = useState(false);
   const [url, setUrl] = useState("");
   const form = useForm<IContentInput>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleUrlChange = (event: { target: { value: SetStateAction<string> } }) => {
     setUrl(event.target.value);
@@ -31,7 +32,15 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
   }, [content]);
 
   const handleSubmit = (data: IContentInput) => {
+    if (isSubmitting) return; // Prevenir múltiples envíos si ya se está procesando uno
+    setIsSubmitting(true); // Deshabilitar el botón de envío
+
     onFormSubmit(data);
+
+    // Establecer un retraso antes de restablecer el estado isSubmitting
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 5000); // Esperar 5 segundos antes de permitir otro envío
   };
 
   const togglePreview = () => {
@@ -41,6 +50,20 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <Box sx={{ maxHeight: "600px", overflow: "auto" }}>
+        <TextField
+          {...form.register("title", {
+            required: "Este campo es requerido",
+            minLength: { value: 12, message: "Minimo 12 caracteres" },
+            maxLength: { value: 60, message: "Maximo 60 caracteres" },
+            pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se aceptan letras y numeros" },
+          })}
+          label="Título de la clase"
+          fullWidth
+          sx={{ mt: 2, mb: 1.5 }}
+          error={!!form.formState.errors.title}
+          helperText={form.formState.errors.title?.message}
+          inputProps={{ maxLength: 60 }} // Limitar la longitud máxima a 60 caracteres
+        />
         <Typography
           variant="body2"
           sx={{ mt: 2, mb: 1.5, overflow: "auto", maxHeight: "100%" }}
@@ -54,7 +77,7 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
                 required: "Este campo es requerido",
                 minLength: { value: 12, message: "Minimo 12 caracteres" },
               })}
-              label="Contenido del curso"
+              label="Contenido de la clase | Formato HTML"
               multiline
               rows={10}
               fullWidth
@@ -88,8 +111,8 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
           <Button onClick={onCancel}>Cancelar</Button>
         </Grid>
         <Grid item>
-          <Button type="submit" variant="contained" color="success">
-            Guardar
+          <Button type="submit" variant="contained" color="success" disabled={isSubmitting}>
+            {isSubmitting ? "Guardando..." : "Guardar"}
           </Button>
         </Grid>
       </Grid>
