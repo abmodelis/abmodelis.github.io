@@ -1,112 +1,112 @@
 import {
+  Alert,
   Button,
+  CircularProgress,
   Divider,
   FormControl,
+  FormHelperText,
   Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { User } from "types/User";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { IUserInput } from "types/IUserInput";
-import { specializationAreas } from "types/User";
-import React from "react";
+import { User, specializationAreas } from "types/User";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { BirthDataPicker } from "./BirthDataPicker";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 type Props = {
   user?: User;
-  onFormSubmit: (data: IUserInput) => void;
+  onFormSubmit: (data: IUserInput) => Promise<void>;
   onCancel: () => void;
+  loading?: boolean;
 };
 
-export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onCancel }) => {
-  const form = useForm<IUserInput>();
+export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onCancel, loading = false }) => {
+  const form = useForm<IUserInput>({
+    defaultValues: {
+      birth_date: dayjs("2005-01-01"),
+    },
+  });
+  const [showAlert, setShowAlert] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (user) {
       form.reset({
-        name: user.name,
-        lastname: user.lastname,
+        first_name: user.first_name,
+        last_name: user.last_name,
         email: user.email,
-        password: user.password,
-        birthDate: user.birthDate,
-        specializationAreaId: user.specializationArea.id,
+        password: "",
+        birth_date: user.birth_date,
+        specialization_area_id: user.specialization_area.id,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  /*const handleSubmit = (data: IUserInput) => {
-    onFormSubmit(data);
-  };*/
-
   const handleSubmit = (data: IUserInput) => {
-    if (isSubmitting) return; // Prevenir múltiples envíos si ya se está procesando uno
-    setIsSubmitting(true); // Deshabilitar el botón de envío
-
-    onFormSubmit(data);
-
-    // Establecer un retraso antes de restablecer el estado isSubmitting
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 5000); // Esperar 5 segundos antes de permitir otro envío
-  };
-
-  const [area, setArea] = React.useState("");
-
-  const handleChange = (event: SelectChangeEvent) => {
-    const selectedTitle = event.target.value;
-    const selectedArea = specializationAreas.find((area) => area.title === selectedTitle);
-
-    if (selectedArea) {
-      console.log("Selected ID:", selectedArea.id);
-      setArea(selectedTitle);
-    }
+    onFormSubmit(data)
+      .catch((error: Error) => {
+        setShowAlert(true);
+        setAlertMessage(String(error?.message));
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+      })
+      .catch(() => {
+        setShowAlert(true);
+        setAlertMessage("Error al registrar");
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+      });
   };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <Alert sx={{ display: showAlert ? "flex" : "none", mb: 2 }} severity="error">
+        <Typography variant="body2">{alertMessage}</Typography>
+      </Alert>
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
           <TextField
-            {...form.register("name", {
+            {...form.register("first_name", {
               required: "Este campo es requerido",
-              minLength: { value: 3, message: "Minimo 3 caracteres" },
               maxLength: { value: 30, message: "Maximo 30 caracteres" },
               pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
             })}
             label="Nombre"
             fullWidth
-            sx={{ mt: 2 }}
-            error={!!form.formState.errors.name}
-            helperText={form.formState.errors.name?.message}
+            sx={{ mt: 1.5, mb: 1.5 }}
+            error={!!form.formState.errors.first_name}
+            helperText={form.formState.errors.first_name?.message}
           />
         </Grid>
         <Grid item xs={6}>
           <TextField
-            {...form.register("lastname", {
+            {...form.register("last_name", {
               required: "Este campo es requerido",
-              minLength: { value: 4, message: "Minimo 4 caracteres" },
               maxLength: { value: 40, message: "Maximo 40 caracteres" },
               pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
             })}
             label="Apellidos"
             fullWidth
-            sx={{ mt: 2 }}
-            error={!!form.formState.errors.lastname}
-            helperText={form.formState.errors.lastname?.message}
+            sx={{ mt: 1.5, mb: 1.5 }}
+            error={!!form.formState.errors.last_name}
+            helperText={form.formState.errors.last_name?.message}
           />
         </Grid>
       </Grid>
@@ -127,7 +127,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
       />
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
-          <FormControl fullWidth sx={{ mt: 2 }} variant="outlined">
+          <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
             <TextField
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
@@ -157,16 +157,17 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
           </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <FormControl fullWidth sx={{ mt: 2 }} variant="outlined">
+          <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
             <TextField
               id="outlined-adornment-confirm-password"
+              label="Confirmar contraseña"
               type={showPassword ? "text" : "password"}
-              {...form.register("confirmPassword", {
+              {...form.register("confirm_password", {
                 required: "Este campo es requerido",
                 validate: (value) => value === form.watch("password") || "Las contraseñas no coinciden",
               })}
-              error={!!form.formState.errors.confirmPassword}
-              helperText={form.formState.errors.confirmPassword?.message} // Aquí está el helperText
+              error={!!form.formState.errors.confirm_password}
+              helperText={form.formState.errors.confirm_password?.message} // Aquí está el helperText
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -176,29 +177,50 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
                   </InputAdornment>
                 ),
               }}
-              label="Confirmar contraseña"
             />
           </FormControl>
         </Grid>
       </Grid>
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
-          <FormControl fullWidth sx={{ mt: 1 }}>
-            <BirthDataPicker title="Fecha de nacimiento"></BirthDataPicker>
-          </FormControl>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            {/* TODO: convertirlo en un componente parametrizable */}
+            <Controller
+              {...form.register("birth_date", {
+                required: "Este campo es requerido",
+                validate: (value) => dayjs().diff(value, "years") >= 18 || "Debes ser mayor de 18 años",
+              })}
+              control={form.control}
+              defaultValue={dayjs("2005-01-01")}
+              render={({ field, fieldState }) => (
+                <>
+                  <DatePicker
+                    {...field}
+                    label="Fecha de nacimiento"
+                    format="DD/MM/YYYY"
+                    minDate={dayjs("1950-01-01")}
+                    value={field.value}
+                    onChange={field.onChange}
+                    sx={{ width: "100%", mt: 1.5, mb: 1.5 }}
+                  />
+                  <FormHelperText error={!!fieldState.error}>{fieldState.error?.message}</FormHelperText>
+                </>
+              )}
+            />
+          </LocalizationProvider>
         </Grid>
         <Grid item xs={6}>
           <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel id="demo-simple-select-label">Área de especialización</InputLabel>
             <Select
+              {...form.register("specialization_area_id")}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={area}
+              defaultValue={1}
               label="Área de especialización"
-              onChange={handleChange}
             >
               {specializationAreas.map((area) => (
-                <MenuItem key={area.id} value={area.title}>
+                <MenuItem key={area.id} value={area.id}>
                   {area.title}
                 </MenuItem>
               ))}
@@ -212,9 +234,10 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
         <Grid item>
           <Button onClick={onCancel}>Cancelar</Button>
         </Grid>
-        <Grid item>
-          <Button type="submit" variant="contained" color="success" disabled={isSubmitting}>
-            {isSubmitting ? "Registrando..." : "Registrarme"}
+        <Grid item xs={8} sx={{ alignItems: "center", display: "inline-flex", justifyContent: "center" }}>
+          <Button disabled={loading} type="submit" variant="contained" color="success" sx={{ width: "80%" }}>
+            Registrarme
+            {loading && <CircularProgress sx={{ marginLeft: "1em", height: "100%", width: "100%" }} />}
           </Button>
         </Grid>
       </Grid>

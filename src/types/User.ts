@@ -11,17 +11,15 @@ export const specializationAreas: SpecializationArea[] = [
   { id: 3, title: "Inteligencia Artificial" },
   { id: 4, title: "Desarrollo mobile" },
   { id: 5, title: "Inglés" },
-  { id: 6, title: "Redes y telecomunicaciones" }
+  { id: 6, title: "Redes y telecomunicaciones" },
 ];
 
 export interface User {
   uuid: string;
-  name: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
+  birth_date: Dayjs;
+  specialization_area: SpecializationArea;
   email: string;
-  password?: string;
-  confirmPassword?: string;
-  birthDate: Dayjs;
-  specializationArea: SpecializationArea;
-  role?: string | null;
+  role: number | null;
 }

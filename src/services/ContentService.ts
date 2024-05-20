@@ -3,7 +3,6 @@ import { ApiService } from "./ApiService";
 
 export class ContentService {
   static async createContent(contentInput: IContentInput) {
-    console.log(contentInput);
     const { data } = await ApiService.post<Content>("/contents", contentInput);
     return data;
   }
