@@ -1,13 +1,19 @@
-import * as React from "react";
+import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
+import * as React from "react";
+import { CoursesService } from "services";
+import { Course } from "types";
 
-export default function ArchivedCourse() {
+type Props = {
+  readonly course: Course;
+};
+
+export default function ArchivedCourse({ course }: Props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -19,6 +25,7 @@ export default function ArchivedCourse() {
   };
 
   const handleConfirm = () => {
+    CoursesService.softDeleteCourse(course.id);
     window.location.href = "/#/teachers/courses";
   };
 

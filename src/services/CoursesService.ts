@@ -25,7 +25,7 @@ export class CoursesService {
           image_path: image_url,
         });
         return data;
-      }
+      },
     );
     return course;
   }
@@ -47,5 +47,9 @@ export class CoursesService {
     formData.append("file", courseInput.image);
     const course = await ApiService.multipart<{ image_url: string }>(`/multimedia/images`, formData).then(sendData);
     return course;
+  }
+
+  static async softDeleteCourse(id: string | number) {
+    return ApiService.delete(`/courses/${id}`);
   }
 }
