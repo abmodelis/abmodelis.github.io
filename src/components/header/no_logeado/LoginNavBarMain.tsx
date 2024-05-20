@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, Toolbar, Typography } from "@mui/material";
+import { Alert, AppBar, Box, Button, Container, Toolbar, Typography } from "@mui/material";
 import React from "react";
 
 import { LogoNavBar } from "icons";
@@ -7,8 +7,27 @@ import { SearchBar } from "../SearchBar";
 import { ProfessorRegister } from "components/modals/ProfessorRegister";
 
 export const LoginNavBarInit: React.FC = () => {
+  const [showAlert, setShowAlert] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("");
+  const [alertType, setAlertType] = React.useState<"success" | "error">("success");
+
+  const handleAlert = (message: string, type: "success" | "error") => {
+    setShowAlert(true);
+    setAlertMessage(message);
+    setAlertType(type);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  };
+
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{ alignItems: "center" }}>
+      <Alert
+        severity={alertType}
+        sx={{ display: showAlert ? "flex" : "none", width: "300px", position: "absolute", top: "10px", zIndex: 1 }}
+      >
+        <Typography variant="body2">{alertMessage}</Typography>
+      </Alert>
       <Container maxWidth="xl">
         <Toolbar>
           <Typography sx={{ flexGrow: 1 }}>
@@ -21,7 +40,7 @@ export const LoginNavBarInit: React.FC = () => {
             {/* <Button sx={{ textTransform: "none" }}>
               <Typography sx={{ color: "white", textDecoration: "underline" }}>Enseña en UFC</Typography>
             </Button> */}
-            <ProfessorRegister />
+            <ProfessorRegister handleAlert={handleAlert} />
           </Box>
           <Box sx={{ display: "flex", flexGrow: 0, gap: 5 }}>
             <Box>

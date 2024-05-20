@@ -18,6 +18,8 @@ import { ProfessorRegisterForm } from "components/forms/ProfessorRegisterForm";
 import React from "react";
 
 import { LogoFooter } from "icons";
+import { AuthService } from "services";
+import { IUserInput } from "types";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -28,7 +30,12 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const ProfessorRegister: React.FC = () => {
+type Props = {
+  handleAlert: (message: string, type: "success" | "error") => void;
+};
+
+export const ProfessorRegister: React.FC<Props> = ({ handleAlert }) => {
+  const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -36,11 +43,23 @@ export const ProfessorRegister: React.FC = () => {
     setOpenDialog(false);
     setOpen(false);
   };
-  const handleButtonClick = () => {};
+  const handleButtonClick = async (data: IUserInput) => {
+    setLoading(true);
+    return AuthService.signUp(data)
+      .then(() => {
+        setLoading(false);
+        setOpen(false);
+        handleAlert("Registrado con exito!", "success");
+      })
+      .catch((error) => {
+        setLoading(false);
+        throw error;
+      });
+  };
 
   return (
-    <div>
-      <Button onClick={handleOpen} variant="text" sx={{ textTransform: "none" }}>
+    <>
+      <Button onClick={handleOpen} variant="contained" sx={{ textTransform: "none" }}>
         <Typography sx={{ color: "white", textDecoration: "underline" }}>Enseña en UFC</Typography>
       </Button>
       <Modal
@@ -63,7 +82,11 @@ export const ProfessorRegister: React.FC = () => {
                   </Box>
                 </Box>
                 <Divider sx={{ height: 1, backgroundColor: "#424242", marginY: "1em" }} />
-                <ProfessorRegisterForm onFormSubmit={handleButtonClick} onCancel={() => setOpenDialog(true)} />
+                <ProfessorRegisterForm
+                  loading={loading}
+                  onFormSubmit={handleButtonClick}
+                  onCancel={() => setOpenDialog(true)}
+                />
                 <Dialog
                   open={openDialog}
                   TransitionComponent={Transition}
@@ -90,6 +113,6 @@ export const ProfessorRegister: React.FC = () => {
           </Grid>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
