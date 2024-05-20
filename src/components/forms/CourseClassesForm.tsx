@@ -4,6 +4,7 @@ import { StyledMuiMarkdown } from "components/Markdown/indext";
 import { SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Player from "react-player";
+import { useLocation } from "react-router-dom";
 
 import { Content, IContentInput } from "types";
 
@@ -17,16 +18,22 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
   const [showPreview, setShowPreview] = useState(false);
   const [url, setUrl] = useState("");
   const form = useForm<IContentInput>();
+  const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleUrlChange = (event: { target: { value: SetStateAction<string> } }) => {
     setUrl(event.target.value);
   };
 
+  const { unit_id } = location.state || {};
+
   useEffect(() => {
     if (content) {
       form.reset({
-        unit_id: content.id,
+        unit_id: unit_id,
+        title: content.title,
+        html_text: content.html_text,
+        media_path: content.media_path,
       });
     }
   }, [content]);
@@ -35,6 +42,7 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
     if (isSubmitting) return; // Prevenir múltiples envíos si ya se está procesando uno
     setIsSubmitting(true); // Deshabilitar el botón de envío
 
+    data.unit_id = unit_id;
     onFormSubmit(data);
 
     // Establecer un retraso antes de restablecer el estado isSubmitting
@@ -49,7 +57,7 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <Box sx={{ maxHeight: "600px", overflow: "auto" }}>
+      <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
         <TextField
           {...form.register("title", {
             required: "Este campo es requerido",
@@ -90,7 +98,7 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
             {!showPreview ? <Preview /> : <NotInterested color="secondary" />}
           </Button>
         </Typography>
-        <Typography variant="body2" sx={{ mt: 2, mb: 1.5, px: 2 }}>
+        <Typography variant="body2" sx={{ mt: 2, mb: 1.5 }}>
           <TextField
             {...form.register("media_path")}
             fullWidth
@@ -101,7 +109,7 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
         </Typography>
 
         {url && (
-          <Box px={2} style={{ borderRadius: "10px", overflow: "hidden" }}>
+          <Box style={{ overflow: "hidden" }}>
             <Player url={url} width="100%" height="420px" />
           </Box>
         )}
