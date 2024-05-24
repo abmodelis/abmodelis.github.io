@@ -1,3 +1,4 @@
+import { Edit, Restore } from "@mui/icons-material";
 import {
   Box,
   Breadcrumbs,
@@ -13,26 +14,39 @@ import {
 } from "@mui/material";
 import { CreateDataCurses } from "components/modals/CreateDataCourses";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CoursesService } from "../../services";
 import { Course } from "../../types";
-import { Edit } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
 function Courses() {
+  const navigator = useNavigate();
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
-  const navigator = useNavigate();
+  const [archived, setArchived] = useState(false);
 
   useEffect(() => {
-    if (!loading) return;
-    CoursesService.getCourses().then((courses) => {
+    setArchived(params.get("archived") === "true");
+  }, [search]);
+
+  const handleLoadCourses = () => {
+    CoursesService.getCourses({ archived }).then((courses) => {
       setCourses(courses);
       setLoading(false);
     });
-  }, [loading]);
+  };
+
+  useEffect(handleLoadCourses, [loading, archived]);
 
   const handleEdit = (course_id: number) => {
     navigator(`/teachers/course`, { state: { course_id } });
+  };
+
+  const handleRestore = (course: Course) => {
+    CoursesService.restoreCourse(course).then(() => {
+      handleLoadCourses();
+    });
   };
 
   return (
@@ -42,7 +56,7 @@ function Courses() {
           <Link underline="hover" color="inherit" href="#/teachers">
             Panel
           </Link>
-          <Typography color="text.primary">Cursos</Typography>
+          <Typography color="text.primary">{!archived ? "Cursos" : "Cursos Archivados"}</Typography>
         </Breadcrumbs>
         <CreateDataCurses />
       </Box>
@@ -94,10 +108,16 @@ function Courses() {
                   {course.description}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: "space-between" }}>
-                <Button onClick={handleEdit.bind(null, course.id)} variant="contained">
-                  <Edit />
-                </Button>
+              <CardActions sx={{ justifyContent: "end" }}>
+                {archived ? (
+                  <Button onClick={handleRestore.bind(null, course)} variant="outlined">
+                    <Restore />
+                  </Button>
+                ) : (
+                  <Button onClick={handleEdit.bind(null, course.id)} variant="contained">
+                    <Edit />
+                  </Button>
+                )}
               </CardActions>
             </Card>
           </Grid>

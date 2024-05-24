@@ -13,6 +13,8 @@ export const menuItems: IMenuItem[] = [
   {
     title: "Archivados",
     icon: <ArchiveOutlinedIcon />,
-    onClick: () => {},
+    onClick: () => {
+      window.location.href = "/#/teachers/courses?archived=true";
+    },
   },
 ];

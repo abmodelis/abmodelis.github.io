@@ -12,24 +12,11 @@ export class ApiService {
     },
   };
 
-  // private static async refreshToken(): Promise<AxiosResponse> {
-  //   if (this.refreshTokenPromise) {
-  //     return this.refreshTokenPromise;
-  //   }
-
-  //   this.refreshTokenPromise = axios.post(`api/v1/auth/login`, {}, this.axiosConfig);
-  //   try {
-  //     return await this.refreshTokenPromise;
-  //   } finally {
-  //     this.refreshTokenPromise = null;
-  //   }
-  // }
-
   private static async request<T>(
     method: Method,
     path: string,
     data?: unknown,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     const allConfig: AxiosRequestConfig = {
       ...this.axiosConfig,
@@ -62,7 +49,7 @@ export class ApiService {
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
-            }
+            },
           );
           localStorage.setItem("token", loginResponse.data.access_token);
           this.axiosConfig.headers!.Authorization = `Bearer ${loginResponse.data.access_token}`;
@@ -77,8 +64,8 @@ export class ApiService {
     return this.request<T>("POST", path, data);
   }
 
-  static async get<T>(path: string): Promise<AxiosResponse<T>> {
-    return this.request<T>("GET", path, undefined);
+  static async get<T, P = {}>(path: string, queryParams?: P): Promise<AxiosResponse<T>> {
+    return this.request<T>("GET", path, undefined, { params: queryParams });
   }
 
   static async put<T>(path: string, data?: unknown): Promise<AxiosResponse<T>> {
@@ -86,7 +73,7 @@ export class ApiService {
   }
 
   static async delete<T>(path: string): Promise<AxiosResponse<T>> {
-    return this.request<T>("DELETE", path, undefined);
+    return this.request<T>("DELETE", path);
   }
 
   static async multipart<T>(path: string, data?: unknown): Promise<AxiosResponse<T>> {
