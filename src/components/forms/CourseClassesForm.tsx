@@ -4,7 +4,6 @@ import { StyledMuiMarkdown } from "components/Markdown/indext";
 import { SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Player from "react-player";
-import { useLocation } from "react-router-dom";
 
 import { Content, IContentInput } from "types";
 
@@ -18,19 +17,16 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
   const [showPreview, setShowPreview] = useState(false);
   const [url, setUrl] = useState("");
   const form = useForm<IContentInput>();
-  const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleUrlChange = (event: { target: { value: SetStateAction<string> } }) => {
     setUrl(event.target.value);
   };
 
-  const { unit_id } = location.state || {};
-
   useEffect(() => {
     if (content) {
       form.reset({
-        unit_id: unit_id,
+        unit_id: content.unit_id,
         title: content.title,
         html_text: content.html_text,
         media_path: content.media_path,
@@ -39,16 +35,13 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
   }, [content]);
 
   const handleSubmit = (data: IContentInput) => {
-    if (isSubmitting) return; // Prevenir múltiples envíos si ya se está procesando uno
-    setIsSubmitting(true); // Deshabilitar el botón de envío
-
-    data.unit_id = unit_id;
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     onFormSubmit(data);
 
-    // Establecer un retraso antes de restablecer el estado isSubmitting
     setTimeout(() => {
       setIsSubmitting(false);
-    }, 5000); // Esperar 5 segundos antes de permitir otro envío
+    }, 5000);
   };
 
   const togglePreview = () => {
