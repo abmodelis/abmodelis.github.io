@@ -6,4 +6,5 @@ export interface Content {
   created_at: Date;
   updated_at: Date;
   deleted_at?: Date;
+  unit_id: number;
 }

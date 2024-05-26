@@ -20,8 +20,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import { TransitionProps } from "@mui/material/transitions";
 import { CourseClassesForm } from "components/forms/CourseClassesForm";
 import { StyledMuiMarkdown } from "components/Markdown/indext";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Player from "react-player";
 import { ContentService } from "services";
 import { Content, IContentInput } from "types";
@@ -56,7 +55,6 @@ const ClassesAccordion: React.FC<ClassAccordionProps> = ({ classNumber, content 
     setShowEditClassForm(true);
   };
   const handleEditFormSubmit = async (contentData: IContentInput) => {
-    //Logica para guardar los datos cambiados(Tarea #77)
     ContentService.updateContent(content.id, contentData).then(() => {
       setShowEditClassForm(false);
       window.location.reload();
