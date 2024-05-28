@@ -35,7 +35,7 @@ type Props = {
 export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onCancel, loading = false }) => {
   const form = useForm<IUserInput>({
     defaultValues: {
-      birth_date: dayjs("2005-01-01"),
+      birth_date: dayjs("2000-01-01"),
     },
   });
   const [showAlert, setShowAlert] = React.useState(false);
@@ -88,9 +88,8 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
               maxLength: { value: 30, message: "Maximo 30 caracteres" },
               pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
             })}
-            label="Nombre"
+            label="Nombres"
             fullWidth
-            sx={{ mt: 1.5, mb: 1.5 }}
             error={!!form.formState.errors.first_name}
             helperText={form.formState.errors.first_name?.message}
           />
@@ -104,7 +103,6 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
             })}
             label="Apellidos"
             fullWidth
-            sx={{ mt: 1.5, mb: 1.5 }}
             error={!!form.formState.errors.last_name}
             helperText={form.formState.errors.last_name?.message}
           />
@@ -127,7 +125,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
       />
       <Grid container direction={"row"} spacing={2}>
         <Grid item xs={6}>
-          <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
+          <FormControl fullWidth sx={{ mt: 2 }} variant="outlined">
             <TextField
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
@@ -136,7 +134,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
                 maxLength: { value: 32, message: "Máximo 32 caracteres" },
                 pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+[\w\W]*$/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#;])[A-Za-z\d@$!%*?&#;]+[\w\W]*$/,
                   message:
                     "Debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial",
                 },
@@ -157,7 +155,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
           </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }} variant="outlined">
+          <FormControl fullWidth sx={{ mt: 2 }} variant="outlined">
             <TextField
               id="outlined-adornment-confirm-password"
               label="Confirmar contraseña"
@@ -188,10 +186,26 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
             <Controller
               {...form.register("birth_date", {
                 required: "Este campo es requerido",
-                validate: (value) => dayjs().diff(value, "years") >= 18 || "Debes ser mayor de 18 años",
+                validate: (value) => {
+                  const selectedDate = dayjs(value, "DD/MM/YYYY");
+                  const currentDate = dayjs();
+                  const minDate = dayjs("1950-01-01");
+                  const maxDate = currentDate.subtract(20, "years");
+
+                  if (selectedDate.isBefore(minDate)) {
+                    return "La fecha mínima para enseñar en esta plataforma es el 01/01/1950";
+                  }
+
+                  if (selectedDate.isAfter(maxDate)) {
+                    const maxDateMessage = `La fecha máxima para enseñar en esta plataforma es el ${maxDate.format("DD/MM/YYYY")}`;
+                    return maxDateMessage;
+                  }
+
+                  return true; // La validación pasó
+                },
               })}
               control={form.control}
-              defaultValue={dayjs("2005-01-01")}
+              defaultValue={dayjs("2000-01-01")}
               render={({ field, fieldState }) => (
                 <>
                   <DatePicker
@@ -199,9 +213,10 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
                     label="Fecha de nacimiento"
                     format="DD/MM/YYYY"
                     minDate={dayjs("1950-01-01")}
+                    maxDate={dayjs().subtract(20, "years")}
                     value={field.value}
                     onChange={field.onChange}
-                    sx={{ width: "100%", mt: 1.5, mb: 1.5 }}
+                    sx={{ mt: 2 }}
                   />
                   <FormHelperText error={!!fieldState.error}>{fieldState.error?.message}</FormHelperText>
                 </>
@@ -230,12 +245,14 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
       </Grid>
 
       <Divider sx={{ height: 1, backgroundColor: "#424242", marginY: "1em" }} />
-      <Grid container spacing={2} justifyContent="flex-end">
+      <Grid container spacing={2} justifyContent="space-between">
         <Grid item>
-          <Button onClick={onCancel}>Cancelar</Button>
+          <Button onClick={onCancel} variant="text" sx={{ width: "275%" }}>
+            Cancelar
+          </Button>
         </Grid>
-        <Grid item xs={8} sx={{ alignItems: "center", display: "inline-flex", justifyContent: "center" }}>
-          <Button disabled={loading} type="submit" variant="contained" color="success" sx={{ width: "80%" }}>
+        <Grid item xs={8} sx={{ alignItems: "center", display: "inline-flex", justifyContent: "flex-end" }}>
+          <Button disabled={loading} type="submit" variant="contained" color="success" sx={{ width: "74.5%" }}>
             Registrarme
             {loading && <CircularProgress sx={{ marginLeft: "1em", height: "100%", width: "100%" }} />}
           </Button>
