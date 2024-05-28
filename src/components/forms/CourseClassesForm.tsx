@@ -9,7 +9,7 @@ import { Content, IContentInput } from "types";
 
 type Props = {
   content?: Content;
-  onFormSubmit: (data: IContentInput) => void;
+  onFormSubmit: (data: IContentInput) => Promise<void>;
   onCancel: () => void;
 };
 

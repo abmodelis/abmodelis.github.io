@@ -59,7 +59,7 @@ export const ProfessorRegister: React.FC<Props> = ({ handleAlert }) => {
 
   return (
     <>
-      <Button onClick={handleOpen} variant="contained" sx={{ textTransform: "none" }}>
+      <Button onClick={handleOpen} variant="text" sx={{ textTransform: "none" }}>
         <Typography sx={{ color: "white", textDecoration: "underline" }}>Enseña en UFC</Typography>
       </Button>
       <Modal
