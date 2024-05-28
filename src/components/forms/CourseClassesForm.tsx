@@ -77,12 +77,16 @@ export const CourseClassesForm: React.FC<Props> = ({ content, onFormSubmit, onCa
               {...form.register("html_text", {
                 required: "Este campo es requerido",
                 minLength: { value: 12, message: "Minimo 12 caracteres" },
+                maxLength: { value: 5000, message: "Maximo 5000 caracteres" },
               })}
               label="Contenido de la clase | Formato HTML"
               multiline
               rows={10}
               fullWidth
               sx={{ mt: 2, mb: 1.5 }}
+              error={!!form.formState.errors.html_text}
+              helperText={form.formState.errors.html_text?.message}
+              inputProps={{ maxLength: 5000 }} // Limitar la longitud máxima a 255 caracteres
             />
           ) : (
             <StyledMuiMarkdown>{form.watch("html_text")}</StyledMuiMarkdown>
