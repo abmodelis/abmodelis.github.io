@@ -88,6 +88,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           minLength: { value: 12, message: "Minimo 12 caracteres" },
           maxLength: { value: 60, message: "Maximo 60 caracteres" },
           pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se aceptan letras y numeros" },
+          validate: (value) => value.trim() !== "" || "El campo no puede estar en blanco",
         })}
         label="Titulo del curso"
         fullWidth
@@ -102,6 +103,7 @@ export const CourseForm: React.FC<Props> = ({ course, onFormSubmit, onCancel }) 
           minLength: { value: 12, message: "Minimo 12 caracteres" },
           maxLength: { value: 130, message: "Maximo 130 caracteres" },
           pattern: { value: /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se aceptan letras y numeros" },
+          validate: (value) => value.trim() !== "" || "El campo no puede estar en blanco",
         })}
         label="Descripcion del curso"
         multiline
