@@ -86,7 +86,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
             {...form.register("first_name", {
               required: "Este campo es requerido",
               maxLength: { value: 30, message: "Maximo 30 caracteres" },
-              pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
+              pattern: { value: /^(?!\s*$)(?!.*\s{2})[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$/, message: "Solo se acepta letras" },
             })}
             label="Nombre"
             fullWidth
@@ -100,7 +100,7 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
             {...form.register("last_name", {
               required: "Este campo es requerido",
               maxLength: { value: 40, message: "Maximo 40 caracteres" },
-              pattern: { value: /^[A-Za-zñÑáéíóúÁÉÍÓÚ\s\-:;,.-]+$/, message: "Solo se acepta letras" },
+              pattern: { value: /^(?!\s*$)(?!.*\s{2})[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$/, message: "Solo se acepta letras" },
             })}
             label="Apellidos"
             fullWidth
@@ -136,7 +136,8 @@ export const ProfessorRegisterForm: React.FC<Props> = ({ user, onFormSubmit, onC
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
                 maxLength: { value: 32, message: "Máximo 32 caracteres" },
                 pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+[\w\W]*$/,
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+#\-_=^<>.,/¨‘“"\\|{}\[\]])[A-Za-z\d@$!%*?&+#\-_=^<>.,/¨‘“"\\|{}\[\]]+$/,
                   message:
                     "Debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial",
                 },
