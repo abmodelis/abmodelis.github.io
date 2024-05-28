@@ -1,9 +1,9 @@
-import { Course, ICourseInput } from "../types";
+import { Course, ICourseInput, ICourseQueryParams } from "../types";
 import { ApiService } from "./ApiService";
 
 export class CoursesService {
-  static async getCourses() {
-    const response = await ApiService.get<Course[]>("/courses");
+  static async getCourses(queryParams?: ICourseQueryParams) {
+    const response = await ApiService.get<Course[], ICourseQueryParams>("/courses", queryParams);
     return response.data;
   }
 
@@ -28,6 +28,20 @@ export class CoursesService {
       },
     );
     return course;
+  }
+
+  static async restoreCourse(course: Course) {
+    const input = {
+      title: course.title,
+      description: course.description,
+      status: course.status,
+      price: course.price,
+      image_path: course.image_path,
+      restore: true,
+    };
+
+    const { data } = await ApiService.put<Course>(`/courses/${course.id}`, input);
+    return data;
   }
 
   static async updateCourse(id: string | number, courseInput: ICourseInput) {

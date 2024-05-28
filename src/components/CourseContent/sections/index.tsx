@@ -1,21 +1,33 @@
+import React from "react";
+
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Modal,
+  Slide,
+  Typography,
+} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { CourseClassesForm } from "components/forms/CourseClassesForm";
-import { useEffect, useState } from "react";
-import { IContentInput, Section, ISectionInput } from "types";
-import ClassesAccordion from "../classes";
 import { ContentService, SectionService } from "services";
+import { IContentInput, ISectionInput, Section } from "types";
+import ClassesAccordion from "../classes";
 
-import { CourseSectionForm } from "components/forms/CourseSectionForm";
 import { TransitionProps } from "@mui/material/transitions";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
-import React from "react";
+import { CourseSectionForm } from "components/forms/CourseSectionForm";
 
 type SectionAccordionProps = {
   sectionNumber: number;
@@ -32,21 +44,11 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, section }) => {
-  const [expanded, setExpanded] = useState(false);
-  const [classes, setClasses] = useState<JSX.Element[]>([]);
+  const [expanded, setExpanded] = React.useState(false);
+  const [contents, setContents] = React.useState(section.contents);
 
-  const [isHovering, setIsHovering] = useState(false);
-  const [showClassForm, setShowClassForm] = useState(false);
-
-  useEffect(() => {
-    if (section) {
-      setClasses(
-        section.contents.map((content, index) => (
-          <ClassesAccordion key={content.id} classNumber={index + 1} content={content} />
-        )),
-      );
-    }
-  }, [section]);
+  const [isHovering, setIsHovering] = React.useState(false);
+  const [showClassForm, setShowClassForm] = React.useState(false);
 
   const handleAddClassClick = () => {
     setShowClassForm(true);
@@ -55,12 +57,7 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
   const handleFormSubmit = async (classData: IContentInput) => {
     classData.unit_id = section.id;
     const newContent = await ContentService.createContent(classData);
-    setClasses((prevSections) => [
-      ...prevSections,
-      <Box key={newContent.id} sx={{ mb: 2 }}>
-        <ClassesAccordion key={newContent.id} classNumber={prevSections.length + 1} content={newContent} />
-      </Box>,
-    ]);
+    setContents((prevSections) => [...prevSections, newContent]);
     setShowClassForm(false);
   };
 
@@ -72,8 +69,8 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
     setExpanded(!expanded);
   };
 
-  const [showEditSectionForm, setShowEditSectionForm] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [showEditSectionForm, setShowEditSectionForm] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
   const handleEditsectionClick = () => {
     setShowEditSectionForm(true);
   };
@@ -198,7 +195,11 @@ const SectionAccordion: React.FC<SectionAccordionProps> = ({ sectionNumber, sect
         <AccordionDetails>
           <Grid sx={{ width: "100%" }}>
             <Box sx={{ display: "flex", flexDirection: "column", pt: 1 }}>
-              {classes.map((classes) => classes)}
+              {contents.map((content, index) => (
+                <Box key={content.id} sx={{ mb: 2 }}>
+                  <ClassesAccordion key={content.id} classNumber={index + 1} content={content} />
+                </Box>
+              ))}
               <Grid container justifyContent="flex-start" sx={{ pt: 2 }}>
                 <Grid item>
                   <Button variant="contained" onClick={handleAddClassClick}>

@@ -7,4 +7,5 @@ export interface ICourseInput {
   price: number;
   image: File | null;
   image_url?: string | null;
+  restore?: boolean;
 }
