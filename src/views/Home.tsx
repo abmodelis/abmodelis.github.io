@@ -7,8 +7,11 @@ function Home() {
     <>
       <Grid sx={{ width: "100%", overflowY: "auto" }}>
         <LoginNavBarInit />
-        <PricingPlan />
-        <Grid item sx={{ mt: 4 }}>
+        <Grid item sx={{ mt: "5vh" }}>
+          <PricingPlan />
+        </Grid>
+        {/*<PricingPlan />*/}
+        <Grid item sx={{ mt: "10vh" }}>
           <Footer />
         </Grid>
       </Grid>
